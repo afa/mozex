@@ -16,7 +16,12 @@ defmodule MozWeb.Router do
 
   scope "/", MozWeb do
     pipe_through :browser
+    live "/user", UserLive.Index, :index
+    # live "/user/new", UserLive.Index, :new
+    live "/user/:id/edit", UserLive.Index, :edit
 
+    live "/user/:id", UserLive.Show, :show
+    live "/user/:id/show/edit", UserLive.Show, :edit
     get "/", PageController, :home
   end
 

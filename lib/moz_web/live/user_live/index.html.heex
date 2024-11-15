@@ -1,0 +1,43 @@
+<.header>
+  Listing User
+  <:actions>
+    <%!-- <.link patch={~p"/user/new"}> --%>
+    <%!--   <.button>New User</.button> --%>
+    <%!-- </.link> --%>
+  </:actions>
+</.header>
+
+<.table
+  id="user"
+  rows={@streams.users}
+  row_click={fn {_id, user} -> JS.navigate(~p"/user/#{user}") end}
+>
+  <:col :let={{_id, row}} label="id"><%=row.id%></:col>
+  <:col :let={{_id, row}} label="name"><%=row.name%></:col>
+  <:col :let={{_id, row}} label="changed"><%=row.password_on%></:col>
+  <%!-- <:action :let={{_id, user}}> --%>
+  <%!--   <div class="sr-only"> --%>
+  <%!--     <.link navigate={~p"/user/#{user}"}>Show</.link> --%>
+  <%!--   </div> --%>
+  <%!--   <.link patch={~p"/user/#{user}/edit"}>Edit</.link> --%>
+  <%!-- </:action> --%>
+  <%!-- <:action :let={{id, user}}> --%>
+  <%!--   <.link --%>
+  <%!--     phx-click={JS.push("delete", value: %{id: user.id}) |> hide("##{id}")} --%>
+  <%!--     data-confirm="Are you sure?" --%>
+  <%!--   > --%>
+  <%!--     Delete --%>
+  <%!--   </.link> --%>
+  <%!-- </:action> --%>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="user-modal" show on_cancel={JS.patch(~p"/user")}>
+  <.live_component
+    module={MozWeb.UserLive.FormComponent}
+    id={@user.id || :new}
+    title={@page_title}
+    action={@live_action}
+    user={@user}
+    patch={~p"/user"}
+  />
+</.modal>
