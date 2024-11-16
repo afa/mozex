@@ -1,7 +1,7 @@
-defmodule MozWeb.UserLive.Show do
+defmodule MozWeb.ForumLive.Show do
   use MozWeb, :live_view
 
-  alias Moz.Users
+  alias Moz.Mozaic
 
   @impl true
   def mount(_params, _session, socket) do
@@ -10,15 +10,12 @@ defmodule MozWeb.UserLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
-    user = Users.get_user!(id)
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:user, user)
-     |> assign(:item, %{item: [%{title: user.name}]})
-    }
+     |> assign(:forum, Mozaic.get_forum_with_tops!(id, 3))}
   end
 
-  defp page_title(:show), do: "Show User"
-  defp page_title(:edit), do: "Edit User"
+  defp page_title(:show), do: "Show Forum"
+  defp page_title(:edit), do: "Edit Forum"
 end

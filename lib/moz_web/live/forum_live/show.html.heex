@@ -1,0 +1,32 @@
+<.header>
+  Forum <%= @forum.id %>
+  <:subtitle>This is a forum record from your database.</:subtitle>
+</.header>
+
+<.list>
+  <:item title="id"><%= @forum.id %></:item>
+  <:item title="name"><%= @forum.title_clean %></:item>
+  <:item title="description"><%= @forum.description_clean %></:item>
+</.list>
+
+<.table
+  id="children"
+  rows={@forum.children}
+  row_click={fn child -> JS.navigate(~p"/forum/#{child.id}") end}
+>
+  <:col :let={row} label="id"><%=row.id%></:col>
+  <:col :let={row} label="title"><%=row.title_clean%></:col>
+  <:col :let={row} label="description"><%=raw row.description_clean %></:col>
+</.table>
+<.back navigate={~p"/forum"}>Back to forum</.back>
+
+<.modal :if={@live_action == :edit} id="forum-modal" show on_cancel={JS.patch(~p"/forum/#{@forum}")}>
+  <.live_component
+    module={MozWeb.ForumLive.FormComponent}
+    id={@forum.id}
+    title={@page_title}
+    action={@live_action}
+    forum={@forum}
+    patch={~p"/forum/#{@forum}"}
+  />
+</.modal>
