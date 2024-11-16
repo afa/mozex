@@ -37,7 +37,6 @@ defmodule Moz.Users do
       where: u.id == ^id,
       select: u)
     |> Repo.one
-    |> IO.inspect
   end
 
   @doc """

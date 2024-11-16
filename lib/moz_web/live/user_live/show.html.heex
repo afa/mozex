@@ -8,10 +8,11 @@
   </:actions>
 </.header>
 
-<%!-- <.list> --%>
-<%!--   <%!-1- <item>{item.title} -1-%> --%>
-<%!--   <%!-1- </item> -1-%> --%>
-<%!-- </.list> --%>
+<.list>
+  <:item title="id"><%= @user.id %></:item>
+  <:item title="name"><%= @user.name %></:item>
+  <:item title="password updated"><%= @user.password_on %></:item>
+</.list>
 
 <.back navigate={~p"/user"}>Back to user</.back>
 

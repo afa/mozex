@@ -8,6 +8,7 @@ defmodule Moz.Forum do
     field :description_clean, :string
     field :position, :integer
     belongs_to :parent, Moz.Forum
+    has_many :children, Moz.Forum, foreign_key: :parent_id
   end
   # +-------------------+-----------------------+------+-----+----------+----------------+
   # | Field             | Type                  | Null | Key | Default  | Extra          |

@@ -18,10 +18,17 @@ defmodule MozWeb.Router do
     pipe_through :browser
     live "/user", UserLive.Index, :index
     # live "/user/new", UserLive.Index, :new
-    live "/user/:id/edit", UserLive.Index, :edit
+    # live "/user/:id/edit", UserLive.Index, :edit
 
     live "/user/:id", UserLive.Show, :show
-    live "/user/:id/show/edit", UserLive.Show, :edit
+    # live "/user/:id/show/edit", UserLive.Show, :edit
+
+    live "/forum", ForumLive.Index, :index
+    # live "/forum/new", ForumLive.Index, :new
+    # live "/forum/:id/edit", ForumLive.Index, :edit
+
+    live "/forum/:id", ForumLive.Show, :show
+    # live "/forum/:id/show/edit", ForumLive.Show, :edit
     get "/", PageController, :home
   end
 
