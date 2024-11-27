@@ -1,5 +1,6 @@
 defmodule MozWeb.UserLive.Show do
   use MozWeb, :live_view
+  import MozWeb.MozComponents
 
   alias Moz.Users
 
@@ -20,5 +21,4 @@ defmodule MozWeb.UserLive.Show do
   end
 
   defp page_title(:show), do: "Show User"
-  defp page_title(:edit), do: "Edit User"
 end

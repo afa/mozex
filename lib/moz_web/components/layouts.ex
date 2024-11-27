@@ -9,6 +9,7 @@ defmodule MozWeb.Layouts do
   `use MozWeb, :live_view`.
   """
   use MozWeb, :html
+  import MozWeb.MozComponents
 
   embed_templates "layouts/*"
 end

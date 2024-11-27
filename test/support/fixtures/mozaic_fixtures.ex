@@ -17,4 +17,32 @@ defmodule Moz.MozaicFixtures do
 
     forum
   end
+
+  @doc """
+  Generate a dashboard.
+  """
+  def dashboard_fixture(attrs \\ %{}) do
+    {:ok, dashboard} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> Moz.Mozaic.create_dashboard()
+
+    dashboard
+  end
+
+  @doc """
+  Generate a account.
+  """
+  def account_fixture(attrs \\ %{}) do
+    {:ok, account} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> Moz.Mozaic.create_account()
+
+    account
+  end
 end

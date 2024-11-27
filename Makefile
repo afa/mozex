@@ -14,3 +14,7 @@ lines:
 	env zsh -c 'ls **/*.(ex|exs)'|grep -v '^deps'|grep -v '^_build'|xargs cat|wc -l
 db:
 	psql moz_dev
+migrate:
+	mix ecto.migrate
+rollback:
+	mix ecto.rollback
