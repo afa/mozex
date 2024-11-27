@@ -55,13 +55,15 @@ defmodule MozWeb.MozComponents do
 
   def user_nick(assigns, user) do
     ~H"""
-    nick
+      <%= user.name %>
     """
   end
 
   def logout_link(assigns) do
     ~H"""
-    logout
+    <.form :let={form} action={~p"/logout"} for={%{}} method="post">
+      <input type="submit" value="Logout" />
+    </.form>
     """
   end
 end
