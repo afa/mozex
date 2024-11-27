@@ -64,5 +64,6 @@ defmodule Moz.User do
     field :password_on, :date
     field :salt, :string
     field :user_title, :string
+    has_one :account, Moz.Account
   end
 end

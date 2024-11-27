@@ -19,7 +19,7 @@ defmodule Moz.MixProject do
   def application do
     [
       mod: {Moz.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :crypto]
     ]
   end
 
@@ -64,6 +64,7 @@ defmodule Moz.MixProject do
       { :uuid, "~> 1.1" },
       {:drops, "~> 0.2.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:secure_random, "~> 0.5.1"},
       {:bandit, "~> 1.5"}
     ]
   end

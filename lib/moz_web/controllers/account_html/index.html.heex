@@ -1,0 +1,22 @@
+<.header>
+  Listing Account
+  <:actions>
+    <.link href={~p"/account/new"}>
+      <.button>New Account</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="account" rows={@account_collection} row_click={&JS.navigate(~p"/account/#{&1}")}>
+  <:action :let={account}>
+    <div class="sr-only">
+      <.link navigate={~p"/account/#{account}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/account/#{account}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={account}>
+    <.link href={~p"/account/#{account}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
