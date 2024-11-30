@@ -41,9 +41,11 @@ defmodule Moz.Accounts do
   end
 
   def locate_user(login, password) do
-    str = String.trim(login)
+    str = login
+          |> String.trim()
+          |> String.downcase()
     user = from(u in Moz.User,
-      where: u.name == ^str,
+      where: fragment("lower(?)", u.name) == ^str,
       limit: 1,
       select: u
     )

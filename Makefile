@@ -18,3 +18,5 @@ migrate:
 	mix ecto.migrate
 rollback:
 	mix ecto.rollback
+deploy:
+	docker image build -t elixir/moz .

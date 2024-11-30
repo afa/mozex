@@ -4,7 +4,30 @@ defmodule MozWeb.MozComponents do
   import MozWeb.Gettext
   alias Phoenix.LiveWeb.JS
 
-  attr :user, Moz.User, required: false
+
+  attr :user, Moz.User, required: true
+  # attr :forums, :list, required: true
+  def forums_on_main(assigns) do
+    # list of root forums, last posted thread (title, uname, last comment date)
+    # for each top 3 child forums
+    list = Moz.Mozaic.list_forums_with_tops!(nil, 3)
+    ~H"""
+    <div :for={forum <- list}>
+      <div class="font-medium text-lg">
+        <.link navigate={~p"/forum/#{forum}"}><%= forum.title_clean %></.link>
+      </div>
+      <div class="py-2 font-small text-sm">
+        <%= forum.description_clean %>
+      </div>
+      <% ch = forum.children |> Enum.take(5) %>
+      <div :for={ f <- ch } clsdd="px-4 font-small text-sm">
+        <.link navigate={~p"/forum/#{f}"}><%= f.title_clean %></.link>
+      </div>
+    </div>
+    """
+  end
+
+  attr :user, Moz.User, required: true
   def top(assigns) do
     ~H"""
     <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
@@ -13,7 +36,7 @@ defmodule MozWeb.MozComponents do
           <img src={~p"/images/logo.svg"} width="36" />
         </a>
         <p class="bg-brand/5 text-brand rounded-full px-2 font-medium leading-6">
-          logo
+          Mozaic forum
         </p>
       </div>
       <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
@@ -26,6 +49,8 @@ defmodule MozWeb.MozComponents do
 
   def nav_bar(assigns) do
     ~H"""
+    <.link navigate={~p"/forum"}>Forums</.link>
+    <.link navigate={~p"/user"}>Users</.link>
     """
   end
 
@@ -48,7 +73,7 @@ defmodule MozWeb.MozComponents do
     <.form :let={form} action={~p"/login"} for={%{}} method="post">
       <input type="text" name="login" />
       <input type="password" name="password" />
-      <input type="submit" />
+      <input type="submit" value="Login"/>
     </.form>
     """
   end

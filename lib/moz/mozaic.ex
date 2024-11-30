@@ -57,10 +57,43 @@ defmodule Moz.Mozaic do
       %Forum{}
 
   """
+  def list_forums_with_tops!(parent_id, size) do
+    childs_query = from c in Forum, order_by: c.position # , limit: ^size
+    case parent_id do
+      nil ->
+        from(f in Forum,
+          where: is_nil(f.parent_id),
+          preload: [children: ^childs_query],
+          order_by: f.position,
+          select: f
+        )
+      _ ->
+        from(f in Forum,
+          where: f.parent_id == ^parent_id,
+          preload: [children: ^childs_query],
+          order_by: f.position,
+          select: f
+        )
+    end
+    |> Repo.all
+  end
+
+  @doc """
+  Gets a single forum with top children.
+
+  Raises if the Forum does not exist.
+
+  ## Examples
+
+      iex> get_forum_with_tops!(123, 3)
+      %Forum{}
+
+  """
   def get_forum_with_tops!(id, size) do
+    childs_query = from c in Forum, order_by: c.position # , limit: ^size
     from(f in Forum,
       where: f.id == ^id,
-      preload: [:children],
+      preload: [children: ^childs_query],
       select: f
     )
     |> Repo.one
