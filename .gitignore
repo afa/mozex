@@ -35,3 +35,4 @@ moz-*.tar
 npm-debug.log
 /assets/node_modules/
 
+/.artifacts/

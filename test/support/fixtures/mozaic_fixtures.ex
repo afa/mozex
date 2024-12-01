@@ -45,4 +45,18 @@ defmodule Moz.MozaicFixtures do
 
     account
   end
+
+  @doc """
+  Generate a thread.
+  """
+  def thread_fixture(attrs \\ %{}) do
+    {:ok, thread} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> Moz.Mozaic.create_thread()
+
+    thread
+  end
 end

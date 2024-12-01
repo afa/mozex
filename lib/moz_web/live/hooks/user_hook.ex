@@ -28,7 +28,6 @@ defmodule MozWeb.UserHook do
   defp build_current_user(session, socket) do
     connect_params = get_connect_params(socket) || %{}
     attrs = connect_params["moz_token"] || session["moz_token"]
-    IO.inspect session
     user = case session do
       %{"moz_token" => %{"" => _}} ->
         %Moz.User{id: nil, name: "Guest"}

@@ -25,28 +25,22 @@ defmodule MozWeb.Router do
   end
   live_session :logged_in, on_mount: [{MozWeb.UserHook, :logged_in}] do
     scope "/", MozWeb do
-    # pipe_through [:browser, :assign_current_user]
       pipe_through :browser
       live "/user", UserLive.Index, :index
-      # live "/user/login", UserLive.Index, :login
-      # live "/user/logout", UserLive.Index, :logout
 
       live "/user/:id", UserLive.Show, :show
-    # live "/user/:id/show/edit", UserLive.Show, :edit
 
       live "/forum", ForumLive.Index, :index
-    # live "/forum/new", ForumLive.Index, :new
-    # live "/forum/:id/edit", ForumLive.Index, :edit
-
       live "/forum/:id", ForumLive.Show, :show
-    # live "/forum/:id/show/edit", ForumLive.Show, :edit
-      # get "/", PageController, :home
-      live "/", DashboardLive.Index, :index
-      # live "/dashboard/new", DashboardLive.Index, :new
-      # live "/dashboard/:id/edit", DashboardLive.Index, :edit
 
-      # live "/dashboard/:id", DashboardLive.Show, :show
-      # live "/dashboard/:id/show/edit", DashboardLive.Show, :edit
+      live "/", DashboardLive.Index, :index
+
+      # live "/thread", ThreadLive.Index, :index
+      # live "/thread/new", ThreadLive.Index, :new
+      # live "/thread/:id/edit", ThreadLive.Index, :edit
+
+      live "/thread/:id", ThreadLive.Show, :show
+      # live "/thread/:id/show/edit", ThreadLive.Show, :edit
     end
   end
 

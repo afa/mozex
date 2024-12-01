@@ -15,18 +15,6 @@ defmodule MozWeb.DashboardLive.Index do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  # defp apply_action(socket, :edit, %{"id" => id}) do
-  #   socket
-  #   |> assign(:page_title, "Edit Dashboard")
-  #   |> assign(:dashboard, Mozaic.get_dashboard!(id))
-  # end
-
-  # defp apply_action(socket, :new, _params) do
-  #   socket
-  #   |> assign(:page_title, "New Dashboard")
-  #   |> assign(:dashboard, %Dashboard{})
-  # end
-
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Listing Dashboard")
@@ -36,13 +24,5 @@ defmodule MozWeb.DashboardLive.Index do
   # @impl true
   # def handle_info({MozWeb.DashboardLive.FormComponent, {:saved, dashboard}}, socket) do
   #   {:noreply, stream_insert(socket, :dashboard_collection, dashboard)}
-  # end
-
-  # @impl true
-  # def handle_event("delete", %{"id" => id}, socket) do
-  #   dashboard = Mozaic.get_dashboard!(id)
-  #   {:ok, _} = Mozaic.delete_dashboard(dashboard)
-
-  #   {:noreply, stream_delete(socket, :dashboard_collection, dashboard)}
   # end
 end
