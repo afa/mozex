@@ -40,6 +40,9 @@ defmodule MozWeb.MozComponents do
         <p class="bg-brand/5 text-brand rounded-full px-2 font-medium leading-6">
           Mozaic forum
         </p>
+        <p>
+          Ex cinere surgo
+        </p>
       </div>
       <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
         <.user_info user={assigns[:user]} />
