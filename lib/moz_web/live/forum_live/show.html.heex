@@ -1,32 +1,43 @@
-<.header>
-  Forum <%= @forum.id %>
-  <:subtitle>This is a forum record from your database.</:subtitle>
+<.header class="my-6">
+  <div class="font-medium text-3xl mx-2">
+    <%= @forum.title %>
+  </div>
+  <div class="font-thin text-sm mx-0 my-3">
+    <%= @forum.description_clean %>
+  </div>
+  <%!-- <:subtitle>This is a forum record from your database.</:subtitle> --%>
 </.header>
 
-<.list>
-  <:item title="id"><%= @forum.id %></:item>
-  <:item title="name"><%= @forum.title_clean %></:item>
-  <:item title="description"><%= @forum.description_clean %></:item>
-</.list>
+<div class="space-y-2 my-6">
+  <div :for={child <- @forum.children} class="text-xl">
+    <.link navigate={~p"/forum/#{child}"}><%= child.title_clean %></.link>
+  </div>
+</div>
 
-<.table
-  id="children"
-  rows={@forum.children}
-  row_click={fn child -> JS.navigate(~p"/forum/#{child.id}") end}
->
-  <:col :let={row} label="id"><%=row.id%></:col>
-  <:col :let={row} label="title"><%=row.title_clean%></:col>
-  <:col :let={row} label="description"><%=raw row.description_clean %></:col>
-</.table>
-<.back navigate={~p"/forum"}>Back to forum</.back>
+<div class="space-y-2 my-6">
+  <div :for={thread <- @forum.threads}>
+    <.link navigate={~p"/thread/#{thread}"}><%= thread.title %></.link>
+  </div>
+</div>
 
-<.modal :if={@live_action == :edit} id="forum-modal" show on_cancel={JS.patch(~p"/forum/#{@forum}")}>
-  <.live_component
-    module={MozWeb.ForumLive.FormComponent}
-    id={@forum.id}
-    title={@page_title}
-    action={@live_action}
-    forum={@forum}
-    patch={~p"/forum/#{@forum}"}
-  />
-</.modal>
+<%!-- <.table --%>
+<%!--   id="children" --%>
+<%!--   rows={@forum.children} --%>
+<%!--   row_click={fn child -> JS.navigate(~p"/forum/#{child.id}") end} --%>
+<%!-- > --%>
+<%!--   <:col :let={row} label="id"><%=row.id%></:col> --%>
+<%!--   <:col :let={row} label="title"><%=row.title_clean%></:col> --%>
+<%!--   <:col :let={row} label="description"><%=raw row.description_clean %></:col> --%>
+<%!-- </.table> --%>
+<%!-- <.back navigate={~p"/forum"}>Back to forum</.back> --%>
+
+<%!-- <.modal :if={@live_action == :edit} id="forum-modal" show on_cancel={JS.patch(~p"/forum/#{@forum}")}> --%>
+<%!--   <.live_component --%>
+<%!--     module={MozWeb.ForumLive.FormComponent} --%>
+<%!--     id={@forum.id} --%>
+<%!--     title={@page_title} --%>
+<%!--     action={@live_action} --%>
+<%!--     forum={@forum} --%>
+<%!--     patch={~p"/forum/#{@forum}"} --%>
+<%!--   /> --%>
+<%!-- </.modal> --%>

@@ -94,6 +94,7 @@ defmodule Moz.Mozaic do
     from(f in Forum,
       where: f.id == ^id,
       preload: [children: ^childs_query],
+      preload: [:threads],
       select: f
     )
     |> Repo.one
@@ -333,6 +334,101 @@ defmodule Moz.Mozaic do
 
   # """
   # def change_account(%Account{} = account, _attrs \\ %{}) do
+  #   raise "TODO"
+  # end
+
+  # alias Moz.Mozaic.Thread
+
+  # @doc """
+  # Returns the list of thread.
+
+  # ## Examples
+
+  #     iex> list_thread()
+  #     [%Thread{}, ...]
+
+  # """
+  # def list_thread do
+  #   raise "TODO"
+  # end
+
+  @doc """
+  Gets a single thread.
+
+  Raises if the Thread does not exist.
+
+  ## Examples
+
+      iex> get_thread!(123)
+      %Thread{}
+
+  """
+  def get_thread!(id) do
+    from(t in Moz.Thread,
+      where: t.id == ^id,
+      limit: 1
+    )
+    |> Repo.one
+  end
+
+  # @doc """
+  # Creates a thread.
+
+  # ## Examples
+
+  #     iex> create_thread(%{field: value})
+  #     {:ok, %Thread{}}
+
+  #     iex> create_thread(%{field: bad_value})
+  #     {:error, ...}
+
+  # """
+  # def create_thread(attrs \\ %{}) do
+  #   raise "TODO"
+  # end
+
+  # @doc """
+  # Updates a thread.
+
+  # ## Examples
+
+  #     iex> update_thread(thread, %{field: new_value})
+  #     {:ok, %Thread{}}
+
+  #     iex> update_thread(thread, %{field: bad_value})
+  #     {:error, ...}
+
+  # """
+  # def update_thread(%Thread{} = thread, attrs) do
+  #   raise "TODO"
+  # end
+
+  # @doc """
+  # Deletes a Thread.
+
+  # ## Examples
+
+  #     iex> delete_thread(thread)
+  #     {:ok, %Thread{}}
+
+  #     iex> delete_thread(thread)
+  #     {:error, ...}
+
+  # """
+  # def delete_thread(%Thread{} = thread) do
+  #   raise "TODO"
+  # end
+
+  # @doc """
+  # Returns a data structure for tracking thread changes.
+
+  # ## Examples
+
+  #     iex> change_thread(thread)
+  #     %Todo{...}
+
+  # """
+  # def change_thread(%Thread{} = thread, _attrs \\ %{}) do
   #   raise "TODO"
   # end
 end

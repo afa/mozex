@@ -12,16 +12,18 @@ defmodule MozWeb.MozComponents do
     # for each top 3 child forums
     list = Moz.Mozaic.list_forums_with_tops!(nil, 3)
     ~H"""
-    <div :for={forum <- list}>
-      <div class="font-medium text-lg">
-        <.link navigate={~p"/forum/#{forum}"}><%= forum.title_clean %></.link>
-      </div>
-      <div class="py-2 font-small text-sm">
-        <%= forum.description_clean %>
-      </div>
-      <% ch = forum.children |> Enum.take(5) %>
-      <div :for={ f <- ch } clsdd="px-4 font-small text-sm">
-        <.link navigate={~p"/forum/#{f}"}><%= f.title_clean %></.link>
+    <div class="space-y-4">
+      <div :for={forum <- list}>
+        <div class="font-medium text-lg">
+          <.link navigate={~p"/forum/#{forum}"}><%= forum.title_clean %></.link>
+        </div>
+        <div class="py-2 font-small text-xs">
+          <%= forum.description_clean %>
+        </div>
+        <% ch = forum.children |> Enum.take(5) %>
+        <div :for={ f <- ch } clsdd="font-small text-sm">
+          <.link class="px-4" navigate={~p"/forum/#{f}"}><%= f.title_clean %></.link>
+        </div>
       </div>
     </div>
     """
@@ -43,14 +45,15 @@ defmodule MozWeb.MozComponents do
         <.user_info user={assigns[:user]} />
       </div>
     </div>
-    <.nav_bar />
+    <.nav_bar user={@user}/>
     """
   end
 
+  attr :user, Moz.User, required: true
   def nav_bar(assigns) do
     ~H"""
     <.link navigate={~p"/forum"}>Forums</.link>
-    <.link navigate={~p"/user"}>Users</.link>
+    <.link :if={Moz.Policy.can?(@user, :users)} navigate={~p"/user"}>Users</.link>
     """
   end
 
@@ -78,7 +81,7 @@ defmodule MozWeb.MozComponents do
     """
   end
 
-  def user_nick(assigns, user) do
+  defp user_nick(assigns, user) do
     ~H"""
       <%= user.name %>
     """

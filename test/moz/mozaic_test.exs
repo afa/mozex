@@ -158,4 +158,56 @@ defmodule Moz.MozaicTest do
       assert %Ecto.Changeset{} = Mozaic.change_account(account)
     end
   end
+
+  describe "thread" do
+    alias Moz.Mozaic.Thread
+
+    import Moz.MozaicFixtures
+
+    @invalid_attrs %{}
+
+    test "list_thread/0 returns all thread" do
+      thread = thread_fixture()
+      assert Mozaic.list_thread() == [thread]
+    end
+
+    test "get_thread!/1 returns the thread with given id" do
+      thread = thread_fixture()
+      assert Mozaic.get_thread!(thread.id) == thread
+    end
+
+    test "create_thread/1 with valid data creates a thread" do
+      valid_attrs = %{}
+
+      assert {:ok, %Thread{} = thread} = Mozaic.create_thread(valid_attrs)
+    end
+
+    test "create_thread/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Mozaic.create_thread(@invalid_attrs)
+    end
+
+    test "update_thread/2 with valid data updates the thread" do
+      thread = thread_fixture()
+      update_attrs = %{}
+
+      assert {:ok, %Thread{} = thread} = Mozaic.update_thread(thread, update_attrs)
+    end
+
+    test "update_thread/2 with invalid data returns error changeset" do
+      thread = thread_fixture()
+      assert {:error, %Ecto.Changeset{}} = Mozaic.update_thread(thread, @invalid_attrs)
+      assert thread == Mozaic.get_thread!(thread.id)
+    end
+
+    test "delete_thread/1 deletes the thread" do
+      thread = thread_fixture()
+      assert {:ok, %Thread{}} = Mozaic.delete_thread(thread)
+      assert_raise Ecto.NoResultsError, fn -> Mozaic.get_thread!(thread.id) end
+    end
+
+    test "change_thread/1 returns a thread changeset" do
+      thread = thread_fixture()
+      assert %Ecto.Changeset{} = Mozaic.change_thread(thread)
+    end
+  end
 end

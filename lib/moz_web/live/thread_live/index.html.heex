@@ -1,0 +1,40 @@
+<.header>
+  Listing Thread
+  <:actions>
+    <.link patch={~p"/thread/new"}>
+      <.button>New Thread</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table
+  id="thread"
+  rows={@streams.thread_collection}
+  row_click={fn {_id, thread} -> JS.navigate(~p"/thread/#{thread}") end}
+>
+  <:action :let={{_id, thread}}>
+    <div class="sr-only">
+      <.link navigate={~p"/thread/#{thread}"}>Show</.link>
+    </div>
+    <.link patch={~p"/thread/#{thread}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, thread}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: thread.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="thread-modal" show on_cancel={JS.patch(~p"/thread")}>
+  <.live_component
+    module={MozWeb.ThreadLive.FormComponent}
+    id={@thread.id || :new}
+    title={@page_title}
+    action={@live_action}
+    thread={@thread}
+    patch={~p"/thread"}
+  />
+</.modal>
