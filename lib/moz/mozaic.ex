@@ -364,9 +364,11 @@ defmodule Moz.Mozaic do
 
   """
   def get_thread!(id) do
+    posts_query = from p in Moz.Post, order_by: p.created_at
     from(t in Moz.Thread,
       where: t.id == ^id,
-      limit: 1
+      limit: 1,
+      preload: [posts: ^posts_query]
     )
     |> Repo.one
   end
