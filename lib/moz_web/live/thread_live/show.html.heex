@@ -1,7 +1,5 @@
 <.header>
-  <div class="font-medium text-xl">
-    <%= @thread.title %>
-  </div>
+  <.thread_breadcrumb thread={@thread} />
   <%!-- Thread <%= @thread.id %> --%>
   <%!-- <:subtitle>This is a thread record from your database.</:subtitle> --%>
   <%!-- <:actions> --%>
@@ -13,7 +11,8 @@
 
 <div class="space-y-6" :if={Moz.Policy.can?(@current_user, :thread, :show)}>
   <div :for={post <- @thread.posts}>
-    <%= post.text %>
+    <div><%= post.created_at %><%= post.title %></div>
+    <div><%= post.text %></div>
   </div>
 </div>
 <%!-- <.modal :if={@live_action == :edit} id="thread-modal" show on_cancel={JS.patch(~p"/thread/#{@thread}")}> --%>

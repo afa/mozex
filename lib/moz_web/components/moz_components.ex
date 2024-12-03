@@ -5,6 +5,34 @@ defmodule MozWeb.MozComponents do
   alias Phoenix.LiveWeb.JS
 
 
+  attr :thread, Moz.Thread, required: true
+  def thread_breadcrumb(assigns) do
+    ~H"""
+    <.breadcrumb forum={assigns.thread.forum} />
+    <span>
+      /
+    </span>
+    <span>
+      <%= assigns.thread.title %>
+    </span>
+    """
+  end
+
+  attr :forum, Moz.Forum, required: true
+  def breadcrumb(assigns) do
+    ~H"""
+      <.breadcrumb forum={Moz.Mozaic.load_forum_parent(assigns.forum)} :if={assigns.forum.parent_id}/>
+      <span :if={assigns.forum.parent_id}>
+        /
+      </span>
+      <span>
+        <a navigate={~p"/forum/#{assigns.forum}"}>
+          <%= assigns.forum.title %>
+        </a>
+      </span>
+    """
+  end
+
   attr :user, Moz.User, required: true
   # attr :forums, :list, required: true
   def forums_on_main(assigns) do

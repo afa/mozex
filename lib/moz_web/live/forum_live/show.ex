@@ -2,6 +2,7 @@ defmodule MozWeb.ForumLive.Show do
   use MozWeb, :live_view
 
   alias Moz.Mozaic
+  import MozWeb.MozComponents
 
   @impl true
   def mount(_params, _session, socket) do

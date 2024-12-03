@@ -148,6 +148,16 @@ defmodule Moz.Mozaic do
     raise "TODO"
   end
 
+  @desc """
+  """
+  def load_forum_parent(%Forum{} = forum) do
+    from(f in Forum,
+      where: f.id == ^forum.parent_id,
+      select: f,
+      preload: [:parent]
+    )
+    |> Repo.one
+  end
   @doc """
   Returns a data structure for tracking forum changes.
 
@@ -364,11 +374,12 @@ defmodule Moz.Mozaic do
 
   """
   def get_thread!(id) do
-    posts_query = from p in Moz.Post, order_by: p.created_at
+    posts_query = from p in Moz.Post, order_by: [p.created_at]
     from(t in Moz.Thread,
       where: t.id == ^id,
       limit: 1,
-      preload: [posts: ^posts_query]
+      preload: [posts: ^posts_query],
+      preload: [:forum]
     )
     |> Repo.one
   end

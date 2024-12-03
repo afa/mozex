@@ -20,3 +20,7 @@ rollback:
 	mix ecto.rollback
 deploy:
 	docker image build -t elixir/moz .
+ssh:
+	ssh -i .artifacts/deploy_key.rsa moz@project.megarulez.ru
+
+# MIX_ENV=prod DATABASE_URL=ecto://moz:moz@localhost/moz SECRET_KEY_BASE=vfghjmnbvghy bin/moz eval "Moz.Release.migrate"

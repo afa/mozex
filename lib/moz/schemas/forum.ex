@@ -11,6 +11,7 @@ defmodule Moz.Forum do
     has_many :children, Moz.Forum, foreign_key: :parent_id
     has_many :threads, Moz.Thread
   end
+
   # +-------------------+-----------------------+------+-----+----------+----------------+
   # | Field             | Type                  | Null | Key | Default  | Extra          |
   # +-------------------+-----------------------+------+-----+----------+----------------+
