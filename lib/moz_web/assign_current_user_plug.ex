@@ -13,7 +13,8 @@ defmodule MozWeb.AssignCurrentUserPlug do
 
     user_details = case cookie do
       nil -> 
-        %Moz.User{id: nil, name: "Guest"}
+        %{"" => nil}
+        # %Moz.User{id: nil, name: "Guest"}
         # %{user_name: "Anonymous",  user_id: nil}
       _ ->
         data = Plug.Conn.Query.decode(cookie)

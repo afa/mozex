@@ -52,5 +52,6 @@ RUN mkdir /root/.ssh && chmod 700 /root/.ssh
 COPY .artifacts/deploy_key.rsa.pub .artifacts/deploy_key.rsa /root/.ssh/
 RUN ssh-keyscan project.megarulez.ru>/root/.ssh/known_hosts
 
+RUN ssh -i /root/.ssh/deploy_key.rsa moz@project.megarulez.ru rm -rf moz
 RUN scp -i /root/.ssh/deploy_key.rsa -r /app/_build/prod/rel/moz moz@project.megarulez.ru:
 CMD /bin/sh

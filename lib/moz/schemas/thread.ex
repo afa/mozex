@@ -11,6 +11,7 @@ defmodule Moz.Thread do
     field :sticky, :boolean
     field :poster_name
     belongs_to :poster, Moz.User
+    has_many :posts, Moz.Post
   end
 end
 # --------------+----------------------+------+-----+---------+----------------+
