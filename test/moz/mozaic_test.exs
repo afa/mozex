@@ -4,7 +4,7 @@ defmodule Moz.MozaicTest do
   alias Moz.Mozaic
 
   describe "forum" do
-    alias Moz.Mozaic.Forum
+    alias Moz.Forum
 
     import Moz.MozaicFixtures
 
@@ -56,7 +56,7 @@ defmodule Moz.MozaicTest do
   end
 
   describe "dashboard" do
-    alias Moz.Mozaic.Dashboard
+    alias Moz.Dashboard
 
     import Moz.MozaicFixtures
 
@@ -108,7 +108,7 @@ defmodule Moz.MozaicTest do
   end
 
   describe "account" do
-    alias Moz.Mozaic.Account
+    alias Moz.Account
 
     import Moz.MozaicFixtures
 
@@ -160,7 +160,7 @@ defmodule Moz.MozaicTest do
   end
 
   describe "thread" do
-    alias Moz.Mozaic.Thread
+    alias Moz.Thread
 
     import Moz.MozaicFixtures
 
