@@ -58,19 +58,18 @@ defmodule Moz.Mozaic do
 
   """
   def list_forums_with_tops!(parent_id, size) do
-    childs_query = from c in Forum, order_by: c.position # , limit: ^size
     case parent_id do
       nil ->
         from(f in Forum,
           where: is_nil(f.parent_id),
-          preload: [children: ^childs_query],
+          preload: [:children],
           order_by: f.position,
           select: f
         )
       _ ->
         from(f in Forum,
           where: f.parent_id == ^parent_id,
-          preload: [children: ^childs_query],
+          preload: [:children],
           order_by: f.position,
           select: f
         )
@@ -90,10 +89,9 @@ defmodule Moz.Mozaic do
 
   """
   def get_forum_with_tops!(id, size) do
-    childs_query = from c in Forum, order_by: c.position # , limit: ^size
     from(f in Forum,
       where: f.id == ^id,
-      preload: [children: ^childs_query],
+      preload: [:children],
       preload: [:threads],
       select: f
     )
@@ -374,11 +372,10 @@ defmodule Moz.Mozaic do
 
   """
   def get_thread!(id) do
-    posts_query = from p in Moz.Post, order_by: [p.created_at]
     from(t in Moz.Thread,
       where: t.id == ^id,
       limit: 1,
-      preload: [posts: ^posts_query],
+      preload: [:posts],
       preload: [:forum]
     )
     |> Repo.one

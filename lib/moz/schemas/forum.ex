@@ -8,7 +8,7 @@ defmodule Moz.Forum do
     field :description_clean, :string
     field :position, :integer
     belongs_to :parent, Moz.Forum
-    has_many :children, Moz.Forum, foreign_key: :parent_id
+    has_many :children, Moz.Forum, foreign_key: :parent_id, preload_order: [asc: :position]
     has_many :threads, Moz.Thread
   end
 

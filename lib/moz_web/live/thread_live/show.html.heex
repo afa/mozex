@@ -11,7 +11,11 @@
 
 <div class="space-y-6" :if={Moz.Policy.can?(@current_user, :thread, :show)}>
   <div :for={post <- @thread.posts}>
-    <div><%= post.created_at %><%= post.title %></div>
+    <div class="flex items-center justify-between gap-4 py-2">
+      <div><%= post.user_name %></div>
+      <div><%= post.title %></div>
+      <div><%= post.created_at %></div>
+    </div>
     <div><%= post.text %></div>
   </div>
 </div>

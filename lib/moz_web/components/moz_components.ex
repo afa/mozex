@@ -26,9 +26,9 @@ defmodule MozWeb.MozComponents do
         /
       </span>
       <span>
-        <a navigate={~p"/forum/#{assigns.forum}"}>
+        <.link navigate={~p"/forum/#{assigns.forum}"}>
           <%= assigns.forum.title %>
-        </a>
+        </.link>
       </span>
     """
   end

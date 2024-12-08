@@ -18,9 +18,11 @@ migrate:
 	mix ecto.migrate
 rollback:
 	mix ecto.rollback
-deploy:
+deploy: stop
 	docker image build -t elixir/moz .
 ssh:
 	ssh -i .artifacts/deploy_key.rsa moz@project.megarulez.ru
-
-# MIX_ENV=prod DATABASE_URL=ecto://moz:moz@localhost/moz SECRET_KEY_BASE=vfghjmnbvghy bin/moz eval "Moz.Release.migrate"
+stop:
+	ssh -i .artifacts/deploy_key.rsa moz@project.megarulez.ru moz/bin/moz stop
+start:
+	ssh -i .artifacts/deploy_key.rsa moz@project.megarulez.ru MIX_ENV=prod DATABASE_URL=ecto://moz:moz@localhost/moz SECRET_KEY_BASE=LpgfhGUDGsvnqGPbpI6ehCM/Jtf25B8JwKVGec7QWdqUgJFMkmectTKsL+uoIL8z PHX_HOST=http://project.megarulez.ru moz/bin/moz daemon
