@@ -35,12 +35,13 @@ RUN mix deps.compile
 COPY priv priv
 COPY assets assets
 
-# Compile assets
-RUN mix assets.deploy
-
 # compile project
 COPY lib lib
 RUN mix compile
+
+# Compile assets
+RUN mix phx.digest
+RUN mix assets.deploy
 
 # copy runtime configuration file
 COPY config/runtime.exs config/
@@ -53,5 +54,7 @@ COPY .artifacts/deploy_key.rsa.pub .artifacts/deploy_key.rsa /root/.ssh/
 RUN ssh-keyscan project.megarulez.ru>/root/.ssh/known_hosts
 
 RUN ssh -i /root/.ssh/deploy_key.rsa moz@project.megarulez.ru rm -rf moz
+RUN ssh -i /root/.ssh/deploy_key.rsa moz@project.megarulez.ru rm -rf static
 RUN scp -i /root/.ssh/deploy_key.rsa -r /app/_build/prod/rel/moz moz@project.megarulez.ru:
+RUN scp -i /root/.ssh/deploy_key.rsa -r /app/priv/static moz@project.megarulez.ru:
 CMD /bin/sh

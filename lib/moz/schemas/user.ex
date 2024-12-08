@@ -1,8 +1,8 @@
 defmodule Moz.User do
   # :userid-id
-  # :usergroupid
-  # :membergroupids
-  # :displaygroupid
+  # :usergroupid-user_group_id
+  # :membergroupids-tmp_member_group_ids
+  # :displaygroupid-display_group_id
   # :username-name
   # :password-
   # :passworddate-password_on
@@ -32,7 +32,7 @@ defmodule Moz.User do
   #:avatarid
   #:avatarrevision
   #:profilepicrevision
-  #:options
+  #:options-
   #:birthday
   #:birthday_search
   #:maxposts
@@ -46,7 +46,7 @@ defmodule Moz.User do
   #:pmtotal
   #:pmunread
   #:salt-
-  #:adminoptions
+  #:adminoptions-admin_options
   #:lastpostid
   #:sigpicrevision
   #:ipoints
@@ -64,6 +64,14 @@ defmodule Moz.User do
     field :password_on, :date
     field :salt, :string
     field :user_title, :string
+    field :posts_count, :integer, virtual: true
     has_one :account, Moz.Account
+
+      # add :user_group_id, references("user_group", on_delete: :delete_all), null: false
+      # add :tmp_member_group_ids, :string, null: true
+      # add :display_group_id, references("user_group", on_delete: :delete_all), null: true
+      # add :options, :integer, null: true
+      # add :admin_options, :integer, null: true
+    
   end
 end

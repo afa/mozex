@@ -11,7 +11,7 @@ defmodule Moz.Thread do
     field :sticky, :boolean
     field :poster_name
     belongs_to :poster, Moz.User
-    has_many :posts, Moz.Post
+    has_many :posts, Moz.Post, preload_order: [asc: :created_at]
   end
 end
 # --------------+----------------------+------+-----+---------+----------------+

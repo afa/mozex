@@ -38,7 +38,9 @@ defmodule MozWeb.UserHook do
         |> Moz.Accounts.user_from_token()
       %{} ->
         %Moz.User{id: nil, name: "Guest"}
-    end
+    end || %Moz.User{id: nil, name: "Guest"}
+    # TODO: fix above patch for valid work with undefined in account token
+
     # %{"current_user_id" => current_user_id} = session
     # user = %{User.new() | id: current_user_id}
 

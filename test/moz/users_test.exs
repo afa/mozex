@@ -4,7 +4,7 @@ defmodule Moz.UsersTest do
   alias Moz.Users
 
   describe "user" do
-    alias Moz.Users.User
+    alias Moz.User
 
     import Moz.UsersFixtures
 
