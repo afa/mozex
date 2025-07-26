@@ -65,7 +65,10 @@ defmodule Moz.MixProject do
       {:drops, "~> 0.2.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:secure_random, "~> 0.5.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      # swagger
+      {:phoenix_swagger, "~> 0.8"},
+      {:ex_json_schema, "~> 0.5"}
     ]
   end
 

@@ -1,4 +1,5 @@
-tst:
+.PHONY: test
+test:
 	mix test
 lint:
 	mix credo --strict --all

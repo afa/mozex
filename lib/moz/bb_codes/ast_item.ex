@@ -1,5 +1,5 @@
 defmodule Moz.BbCodes.AstStruct do
-  defstruct type: :text, value: '', opts: %{}
+  defstruct type: :text, value: "", opts: %{}
 end
 
 defimpl String.Chars, for: Moz.BbCodes.AstStruct do

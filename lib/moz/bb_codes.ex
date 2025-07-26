@@ -1,101 +1,95 @@
 defmodule Moz.BbCodes do
+  alias Moz.BbCodes.Tokenizer
+
+  @moduledoc """
+  parses bb codes, converts text to ast with text and token structured and closed into tuples
+
+  """
   def call(text) do
-    init_context(text)
-    # |> process
+    text
+    |> init_context
+    |> process
     |> IO.inspect
   end
 
-  defp process(%{ast: ast, prev_token: prev, current_token: current, tokens: tokens, state: state} = context) do
-    if Enum.empty?(tokens) do
-      context
-    else
-      [token | tail] = tokens
-      {new_token, new_ast} = case new_state = ident_token(state, prev, current, token) do
-        :text ->
-          {token, [ast | [{:text, token}]]}
-      end
-        new_context = %{ast: new_ast, token: new_token, prev_token: nil, current_token: nil, state: new_state, tokens: tail}
-        process(new_context)
+  @doc """
+    Initializes the context for parsing BB codes.
+    tokenizing text with BbCodes.Tokenizer
+  """
+  defp init_context(text) do
+    with {:ok, tokens} = Tokenizer.call(text)
+    do
+      %{ast: [], tokens: tokens, prev_token: nil, current_token: nil, state: :text}
     end
   end
-  # ast item: {:type, }
-  # type: text, tokenstart, opentokenbody
 
-  # резать побуквенно, парсить побуквенно, напихивая текстовые символы в листы, помечая в потоке начало токена
-  #  (или завершающего токена - [ or [/) или смайла(::), конец токена(]). смайлы симметричны
-  # раскладывать в туплы {:type, value(list or string), opts}
-  # возращать плоский список (flatten в конце?)
-  defp tokenize(text) do
-    chars = String.split(text, "") # TODO: дополнить
-    scan({:text, [], [], nil, nil, hd(chars), tl(chars)})
-  end
+  @doc """
+    token type :open :close :single,
+    token name,
+    params,
+    token stream.
+    top token - text, parser returns its stream and tokens tail
+    closing token with other than name now converted to text, later can check with tokens stack and autoclose current token
+    text - add to stream
+    token - build stream, recursivelly add tokens to stream end
+  """
+  defp process(
+         %{
+         ast: ast,
+         prev_token: prev,
+         current_token: current,
+         tokens: tokens,
+         state: state
+         } = context
+       ) do
+    {type, name, params} = ident_token(token)
 
-  # state - перед распознанием текущей char, относится к моменту распознания curr
-  # состояния - текст, тело токена. обработка смайлов позже
-  # [ в char и стейте текст - сброс предыдущего буфера с токеном текст и начало нового потока, стейт тело токена
-  # [ в char и стейт тело токена - сброс буфера с токеном текст и начало нового потока стейт тело токена
-  # ] в char и стейт тело токена - сброс буфера с токеном токен и начало нового потока стейт текст
-  # ] в char и стейт текст - продолжаем наполнять буфер
-  defp scan({:text, accum, rezult, prev, curr, char, []}) do
-    # end scan
-    # flush accum, return it as text
-    rez = [accum, prev || "", curr || "", char]
-          |> List.flatten
-    [rezult, {:text, rez}]
-    |> List.flatten
-  end
-  defp scan({:token, accum, rezult, prev, curr, "]", []}) do
-    # close tag, return accum as token
-    # end scan
-    rez = [accum, prev || "", curr || "", "]"]
-          |> List.flatten
-    [rezult, {:token, rez}]
-    |> List.flatten
-  end
-  defp scan({:token, accum, rezult, prev, curr, char, []}) do
-    # flush accum, return as text
-    # end scan
-    rez = [accum, prev || "", curr || "", char]
-          |> List.flatten
-    [rezult, {:text, rez}]
-    |> List.flatten
-  end
+    rez =
+      case ident_token(token) do
+        {:open, token_name} ->
+          make_level(new_token)
 
-  # open token in token
-  defp scan({:token, accum, rezult, prev, curr, "[", chars}) do
-    # flush accum as text start new token
-    text = {:text, List.flatten([accum, prev || "", curr || ""])}
-    new_rezult = [rezult, text]
-    [h | t] = chars
-    scan({:token, [], new_rezult, nil, "[", h, t})
-  end
-  # close token
-  defp scan({:token, accum, rezult, prev, curr, "]", chars}) do
-    # close token flush accum as token
-    tok = {:token, List.flatten([accum, prev || "", curr || "", "]"])}
-    new_rezult = [rezult, tok]
-    [h | t] = chars
-    scan({:text, [], new_rezult, nil, nil, h, t})
-  end
-  # open in text
-  defp scan({:text, accum, rezult, prev, curr, "[", chars}) do
-    text = {:text, List.flatten([accum, prev || "", curr || ""])}
-    new_rezult = [rezult, text]
-    [h | t] = chars
-    scan({:token, [], new_rezult, nil, "[", h, t})
-  end
-  # regular any
-  defp scan({state, accum, rezult, prev, curr, char, chars}) do
-    new_acc = [accum, prev]
-    [h | t] = chars
-    scan({state, new_acc, rezult, curr, char, h, t})
+        {:close, token_name} ->
+          return(closed(level))
+
+        {:single, list} ->
+          append(to(result and continue))
+      end
+
+    make_level({})
+
+    # if Enum.empty?(tokens) do
+    #   context
+    # else
+    #   [token | tail] = tokens
+    #   {new_token, new_ast} = case new_state = ident_token(state, prev, current, token) do
+    #     :text ->
+    #       {token, [ast | [{:text, token}]]}
+    #   end
+    #     new_context = %{ast: new_ast, token: new_token, prev_token: nil, current_token: nil, state: new_state, tokens: tail}
+    #     process(new_context)
+    # end
   end
 
-  defp init_context(text) do
-    tokens = tokenize(text)
-    # tokens = String.split(text, ~r{\b}u)
-    %{ast: [], tokens: tokens, prev_token: nil, current_token: nil, state: :text}
+  defp ident_token({:text, list}) do
+    {:single}
   end
+
+  @doc """
+  ast item: {:type, }
+  type: text, tokenstart, opentokenbody
+
+  return {:ok, level, tail}
+  token_name: current token
+  kind: yieldable/none
+  opts: has or no opts in tag: y/n
+  level: [] of text or tokens with subtree
+  stream: tail of tokens list
+  """
+  # defp make_level({,,,,[]}), do: nil
+  defp make_level({:token, token_name, {kind, opts}, level, stream}), do: nil
+  defp make_level({:text, _, _, level, stream}), do: nil
+
 
   # ident_token state, prev_token, current_token, token
   # states: :text, :start_token
