@@ -20,3 +20,4 @@ defmodule Moz.BbCodesTest do
       assert Moz.BbCodes.call("[s]strikethrough[/s]") == []
     end
   end
+end

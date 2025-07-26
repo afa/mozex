@@ -1,5 +1,5 @@
 .PHONY: test
-test:
+test: migrate-test
 	mix test
 lint:
 	mix credo --strict --all
@@ -18,7 +18,9 @@ lines:
 	env zsh -c 'ls **/*.(ex|exs)'|grep -v '^deps'|grep -v '^_build'|xargs cat|wc -l
 db:
 	psql moz_dev
-migrate:
+migrate-test: 
+	MIX_ENV=test mix ecto.migrate
+migrate: 
 	mix ecto.migrate
 rollback:
 	mix ecto.rollback

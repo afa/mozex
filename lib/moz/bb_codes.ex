@@ -42,18 +42,18 @@ defmodule Moz.BbCodes do
          state: state
          } = context
        ) do
-    {type, name, params} = ident_token(token)
+    # {type, name, params} = ident_token(token)
 
     rez =
-      case ident_token(token) do
+      case ident_token(current) do
         {:open, token_name} ->
-          make_level(new_token)
+          make_level(current)
 
         {:close, token_name} ->
-          return(closed(level))
+          nil # return(closed(level))
 
         {:single, list} ->
-          append(to(result and continue))
+          nil # append(to(result and continue))
       end
 
     make_level({})
