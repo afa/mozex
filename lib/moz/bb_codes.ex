@@ -9,7 +9,6 @@ defmodule Moz.BbCodes do
     text
     |> init_context
     |> process
-    |> IO.inspect
   end
 
   @doc """
@@ -17,7 +16,7 @@ defmodule Moz.BbCodes do
     tokenizing text with BbCodes.Tokenizer
   """
   defp init_context(text) do
-    with {:ok, tokens} = Tokenizer.call(text)
+    with {:ok, tokens} <- Tokenizer.call(text)
     do
       %{ast: [], tokens: tokens, prev_token: nil, current_token: nil, state: :text}
     end

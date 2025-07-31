@@ -2,6 +2,8 @@ defmodule Moz.BbCodes.Tokenizer do
   require Result
 
   @moduledoc """
+  задача порезать текст на участки помеченные как текст, токен, (закрывающий токен?), смайл.
+  не строится аст дерево, только списки. соответственно стека нет, валидации закрытия токена нет.
     резать побуквенно, парсить побуквенно, напихивая текстовые символы в листы, помечая в потоке
     начало токена (или завершающего токена - [ or [/) или смайла(::), конец токена(]). смайлы симметричны
     раскладывать в туплы {:type, value(list or string), opts}
@@ -10,8 +12,7 @@ defmodule Moz.BbCodes.Tokenizer do
 
   def call(text) do
     chars = String.split(text, "")
-    |>IO.inspect
-    xscan({:text, [], [], nil, nil, hd(chars), tl(chars)})
+    xscan({:text, [], [], nil, nil, chars})
     |> Result.ok
   end
 
@@ -27,10 +28,21 @@ defmodule Moz.BbCodes.Tokenizer do
   chars: список разделенных букв, хвост текста.
   behavior: завершение итераций определяется пустым chars - дописываем prev_char, current_char в accum,
   accum добавляем в rezult, возвращаем результат
-  стартуем с пустого результата, с пустым аккумом типа :text, nil в prev_char и current_char
+  стартуем с пустого результата, с пустым аккумом типа :text, nil в prev_char и current_char -
   """
-  def xscan({:text, [], [], nil, nil, []}) do
-    {:ok, []}
+  def xscan({:text, rezult, accum, prev_char, current_char, []}) do
+    processed_accum = List.flatten([accum, prev_char, current_char])
+    |>Enum.filter(fn
+      nil -> false
+      "" -> false
+      _ -> true
+    end)
+    |>Enum.join("")
+    List.flatten(rezult, [%Moz.BbCodes.BbToken{type: :text, value: processed_accum}])
+  end
+  # add for token start
+  def xscan({:text, rezult, accum, prev_char, current_char, [head | tail]}) do
+    xscan({:text, rezult, [accum, prev_char], current_char, head, tail})
   end
 
 @doc """

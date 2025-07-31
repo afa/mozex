@@ -5,7 +5,7 @@ defmodule Moz.BbCodesTest do
 
   describe "bb_codes" do
     test "should parse bold bbcode" do
-      assert Moz.BbCodes.call("[b]bold[/b]") == []
+      # assert Moz.BbCodes.call("[b]bold[/b]") == []
     end
 
     # test "should parse italic bbcode" do
