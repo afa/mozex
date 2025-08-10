@@ -1,5 +1,6 @@
 defmodule Moz.BbCodes.Tokenizer do
   require Result
+  require Moz.BbCodes.BbToken
 
   @moduledoc """
   задача порезать текст на участки помеченные как текст, токен, (закрывающий токен?), смайл.
@@ -11,9 +12,11 @@ defmodule Moz.BbCodes.Tokenizer do
   """
 
   def call(text) do
+    # IO.inspect([":0", text])
     chars = String.split(text, "")
+
     xscan({:text, [], [], nil, nil, chars})
-    |> Result.ok
+    |> Result.ok()
   end
 
   @doc """
@@ -30,103 +33,100 @@ defmodule Moz.BbCodes.Tokenizer do
   accum добавляем в rezult, возвращаем результат
   стартуем с пустого результата, с пустым аккумом типа :text, nil в prev_char и current_char -
   """
-  def xscan({:text, rezult, accum, prev_char, current_char, []}) do
-    processed_accum = List.flatten([accum, prev_char, current_char])
-    |>Enum.filter(fn
+  def xscan({:text, rezult, accum, prev_char, current_char, []} = args) do
+    # IO.inspect([":1", args])
+    processed_accum = transform_accum([accum, prev_char, current_char])
+    transform_rezult([rezult, %Moz.BbCodes.BbToken{type: :text, value: processed_accum}])
+  end
+
+  def xscan({:open, rezult, accum, prev_char, current_char, []} = args) do
+    # IO.inspect([":1.1", args])
+    processed_accum = transform_accum(["[", accum, prev_char, current_char])
+    transform_rezult([rezult, %Moz.BbCodes.BbToken{type: :text, value: processed_accum}])
+  end
+
+  def xscan({:close, rezult, accum, prev_char, current_char, []} = args) do
+    # IO.inspect([":1.2", args])
+    processed_accum = transform_accum(["[/", accum, prev_char, current_char])
+    transform_rezult([rezult, %Moz.BbCodes.BbToken{type: :text, value: processed_accum}])
+  end
+
+  # closing :text, convert accum to BbToke, reinit accum from scratch, opens closing teg ([/])
+  def xscan({:text, rezult, accum, "[", "/", [head | tail]} = args) do
+    # IO.inspect([":2", args])
+
+    xscan(
+      {:close, [rezult, %Moz.BbCodes.BbToken{type: :text, value: transform_accum([accum])}], [],
+       nil, head, tail}
+    )
+  end
+
+  # closing :text, convert accum to BbToke, reinit accum from scratch, opens openning teg ([])
+  def xscan({:text, rezult, accum, "[", current_char, [head | tail]} = args) do
+    # IO.inspect([":3", args])
+
+    xscan(
+      {:open, [rezult, %Moz.BbCodes.BbToken{type: :text, value: transform_accum([accum])}], [],
+       current_char, head, tail}
+    )
+  end
+
+  # add for token start
+  def xscan({:text, rezult, accum, prev_char, current_char, [head | tail]} = args) do
+    # IO.inspect([":4", args])
+    xscan({:text, rezult, [accum, prev_char], current_char, head, tail})
+  end
+
+  def xscan({:open, rezult, accum, prev_char, "]", [head | tail]} = args) do
+    # IO.inspect([":5", args])
+
+    xscan(
+      {:text,
+       [rezult, %Moz.BbCodes.BbToken{type: :open, value: transform_accum([accum, prev_char])}],
+       [], nil, head, tail}
+    )
+  end
+
+  def xscan({:open, rezult, accum, prev_char, current_char, [head | tail]} = args) do
+    # IO.inspect([":5.1", args])
+    xscan({:open, rezult, [accum, prev_char], current_char, head, tail})
+  end
+
+  def xscan({:close, rezult, accum, prev_char, "]", [head | tail]} = args) do
+    # IO.inspect([":6", args])
+
+    xscan(
+      {:text,
+       [rezult, %Moz.BbCodes.BbToken{type: :close, value: transform_accum([accum, prev_char])}],
+       [], nil, head, tail}
+    )
+  end
+
+  def xscan({:close, rezult, accum, prev_char, current_char, [head | tail]} = args) do
+    # IO.inspect([":7", args])
+    xscan({:close, rezult, [accum, prev_char], current_char, head, tail})
+  end
+
+  def transform_rezult(list) do
+    list
+    |> List.flatten()
+    |> Enum.filter(fn
+      %Moz.BbCodes.BbToken{type: _, opts: _, value: ""} -> false
+      _ -> true
+    end)
+  end
+
+  @doc """
+  flattenize list, filter blanks, join to text
+  """
+  def transform_accum(list) do
+    list
+    |> List.flatten()
+    |> Enum.filter(fn
       nil -> false
       "" -> false
       _ -> true
     end)
-    |>Enum.join("")
-    List.flatten(rezult, [%Moz.BbCodes.BbToken{type: :text, value: processed_accum}])
+    |> Enum.join("")
   end
-  # add for token start
-  def xscan({:text, rezult, accum, prev_char, current_char, [head | tail]}) do
-    xscan({:text, rezult, [accum, prev_char], current_char, head, tail})
-  end
-
-@doc """
-  params:
-  state - перед распознанием текущей char, относится к моменту распознания curr
-  состояния - текст, тело токена. обработка смайлов позже
-  [ в char и стейте текст - сброс предыдущего буфера с токеном текст и начало нового потока, стейт тело токена
-  [ в char и стейт тело токена - сброс буфера с токеном текст и начало нового потока стейт тело токена
-  ] в char и стейт тело токена - сброс буфера с токеном токен и начало нового потока стейт текст
-  ] в char и стейт текст - продолжаем наполнять буфер
-"""
-  defp scan({:text, accum, rezult, prev, curr, char, []}) do
-    # end scan
-    # flush accum, return it as text
-    rez =
-      [accum, prev || "", curr || "", char]
-      |> List.flatten()
-      |> trim
-
-    [rezult, {:text, rez}]
-    |> List.flatten()
-  end
-
-  defp scan({:token, accum, rezult, prev, curr, "]", []}) do
-    # close tag, return accum as token
-    # end scan
-    rez =
-      [accum, prev || "", curr || "", "]"]
-      |> List.flatten()
-      |> trim
-
-    [rezult, {:token, rez}]
-    |> List.flatten()
-  end
-
-  defp scan({:token, accum, rezult, prev, curr, char, []}) do
-    # flush accum, return as text
-    # end scan
-    rez =
-      [accum, prev || "", curr || "", char]
-      |> List.flatten()
-      |> trim
-
-    [rezult, {:text, rez}]
-    |> List.flatten()
-  end
-
-  # open token in token
-  defp scan({:token, accum, rezult, prev, curr, "[", chars}) do
-    # flush accum as text start new token
-    text = {:text, List.flatten([accum, prev || "", curr || ""]) |> trim}
-    new_rezult = [rezult, text]
-    [h | t] = chars
-    scan({:token, [], new_rezult, nil, "[", h, t})
-  end
-
-  # close token
-  defp scan({:token, accum, rezult, prev, curr, "]", chars}) do
-    # close token flush accum as token
-    tok = {:token, List.flatten([accum, prev || "", curr || "", "]"]) |> trim}
-    new_rezult = [rezult, tok]
-    [h | t] = chars
-    scan({:text, [], new_rezult, nil, nil, h, t})
-  end
-
-  # open in text
-  defp scan({:text, accum, rezult, prev, curr, "[", chars}) do
-    text = {:text, List.flatten([accum, prev || "", curr || ""]) |> trim}
-    new_rezult = [rezult, text]
-    [h | t] = chars
-    scan({:token, [], new_rezult, nil, "[", h, t})
-  end
-
-  # regular any
-  defp scan({state, accum, rezult, prev, curr, char, chars}) do
-    new_acc = [accum, prev]
-    [h | t] = chars
-    scan({state, new_acc, rezult, curr, char, h, t})
-  end
-
-  @doc """
-    Trim nils and empty strings from a list of tokens.
-  """
-  defp trim([nil | tail]), do: trim(tail)
-  defp trim(["" | tail]), do: trim(tail)
-  defp trim(list), do: list
 end
