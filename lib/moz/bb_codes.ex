@@ -16,8 +16,7 @@ defmodule Moz.BbCodes do
     tokenizing text with BbCodes.Tokenizer
   """
   defp init_context(text) do
-    with {:ok, tokens} <- Tokenizer.call(text)
-    do
+    with {:ok, tokens} <- Tokenizer.call(text) |> IO.inspect() do
       %{ast: [], tokens: tokens, prev_token: nil, current_token: nil, state: :text}
     end
   end
@@ -34,14 +33,15 @@ defmodule Moz.BbCodes do
   """
   defp process(
          %{
-         ast: ast,
-         prev_token: prev,
-         current_token: current,
-         tokens: tokens,
-         state: state
+           ast: ast,
+           prev_token: prev,
+           current_token: current,
+           tokens: tokens,
+           state: state
          } = context
        ) do
     # {type, name, params} = ident_token(token)
+    IO.inspect(context)
 
     rez =
       case ident_token(current) do
@@ -49,10 +49,12 @@ defmodule Moz.BbCodes do
           make_level(current)
 
         {:close, token_name} ->
-          nil # return(closed(level))
+          # return(closed(level))
+          nil
 
         {:single, list} ->
-          nil # append(to(result and continue))
+          # append(to(result and continue))
+          nil
       end
 
     make_level({})
@@ -88,7 +90,6 @@ defmodule Moz.BbCodes do
   # defp make_level({,,,,[]}), do: nil
   defp make_level({:token, token_name, {kind, opts}, level, stream}), do: nil
   defp make_level({:text, _, _, level, stream}), do: nil
-
 
   # ident_token state, prev_token, current_token, token
   # states: :text, :start_token

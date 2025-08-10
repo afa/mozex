@@ -15,7 +15,7 @@ defmodule Moz.BbCodes.Tokenizer do
     # IO.inspect([":0", text])
     chars = String.split(text, "")
 
-    xscan({:text, [], [], nil, nil, chars})
+    scan({:text, [], [], nil, nil, chars})
     |> Result.ok()
   end
 
@@ -33,78 +33,78 @@ defmodule Moz.BbCodes.Tokenizer do
   accum добавляем в rezult, возвращаем результат
   стартуем с пустого результата, с пустым аккумом типа :text, nil в prev_char и current_char -
   """
-  def xscan({:text, rezult, accum, prev_char, current_char, []} = args) do
+  def scan({:text, rezult, accum, prev_char, current_char, []} = args) do
     # IO.inspect([":1", args])
     processed_accum = transform_accum([accum, prev_char, current_char])
     transform_rezult([rezult, %Moz.BbCodes.BbToken{type: :text, value: processed_accum}])
   end
 
-  def xscan({:open, rezult, accum, prev_char, current_char, []} = args) do
+  def scan({:open, rezult, accum, prev_char, current_char, []} = args) do
     # IO.inspect([":1.1", args])
     processed_accum = transform_accum(["[", accum, prev_char, current_char])
     transform_rezult([rezult, %Moz.BbCodes.BbToken{type: :text, value: processed_accum}])
   end
 
-  def xscan({:close, rezult, accum, prev_char, current_char, []} = args) do
+  def scan({:close, rezult, accum, prev_char, current_char, []} = args) do
     # IO.inspect([":1.2", args])
     processed_accum = transform_accum(["[/", accum, prev_char, current_char])
     transform_rezult([rezult, %Moz.BbCodes.BbToken{type: :text, value: processed_accum}])
   end
 
   # closing :text, convert accum to BbToke, reinit accum from scratch, opens closing teg ([/])
-  def xscan({:text, rezult, accum, "[", "/", [head | tail]} = args) do
+  def scan({:text, rezult, accum, "[", "/", [head | tail]} = args) do
     # IO.inspect([":2", args])
 
-    xscan(
+    scan(
       {:close, [rezult, %Moz.BbCodes.BbToken{type: :text, value: transform_accum([accum])}], [],
        nil, head, tail}
     )
   end
 
   # closing :text, convert accum to BbToke, reinit accum from scratch, opens openning teg ([])
-  def xscan({:text, rezult, accum, "[", current_char, [head | tail]} = args) do
+  def scan({:text, rezult, accum, "[", current_char, [head | tail]} = args) do
     # IO.inspect([":3", args])
 
-    xscan(
+    scan(
       {:open, [rezult, %Moz.BbCodes.BbToken{type: :text, value: transform_accum([accum])}], [],
        current_char, head, tail}
     )
   end
 
   # add for token start
-  def xscan({:text, rezult, accum, prev_char, current_char, [head | tail]} = args) do
+  def scan({:text, rezult, accum, prev_char, current_char, [head | tail]} = args) do
     # IO.inspect([":4", args])
-    xscan({:text, rezult, [accum, prev_char], current_char, head, tail})
+    scan({:text, rezult, [accum, prev_char], current_char, head, tail})
   end
 
-  def xscan({:open, rezult, accum, prev_char, "]", [head | tail]} = args) do
+  def scan({:open, rezult, accum, prev_char, "]", [head | tail]} = args) do
     # IO.inspect([":5", args])
 
-    xscan(
+    scan(
       {:text,
        [rezult, %Moz.BbCodes.BbToken{type: :open, value: transform_accum([accum, prev_char])}],
        [], nil, head, tail}
     )
   end
 
-  def xscan({:open, rezult, accum, prev_char, current_char, [head | tail]} = args) do
+  def scan({:open, rezult, accum, prev_char, current_char, [head | tail]} = args) do
     # IO.inspect([":5.1", args])
-    xscan({:open, rezult, [accum, prev_char], current_char, head, tail})
+    scan({:open, rezult, [accum, prev_char], current_char, head, tail})
   end
 
-  def xscan({:close, rezult, accum, prev_char, "]", [head | tail]} = args) do
+  def scan({:close, rezult, accum, prev_char, "]", [head | tail]} = args) do
     # IO.inspect([":6", args])
 
-    xscan(
+    scan(
       {:text,
        [rezult, %Moz.BbCodes.BbToken{type: :close, value: transform_accum([accum, prev_char])}],
        [], nil, head, tail}
     )
   end
 
-  def xscan({:close, rezult, accum, prev_char, current_char, [head | tail]} = args) do
+  def scan({:close, rezult, accum, prev_char, current_char, [head | tail]} = args) do
     # IO.inspect([":7", args])
-    xscan({:close, rezult, [accum, prev_char], current_char, head, tail})
+    scan({:close, rezult, [accum, prev_char], current_char, head, tail})
   end
 
   def transform_rezult(list) do
