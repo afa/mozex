@@ -17,64 +17,58 @@ defmodule Moz.BbCodes do
   """
   defp init_context(text) do
     with {:ok, tokens} <- Tokenizer.call(text) |> IO.inspect() do
-      %{ast: [], tokens: tokens, prev_token: nil, current_token: nil, state: :text}
+      %{ast: [], tokens: tokens, token: nil, type: :text}
     end
   end
 
-  @doc """
-    token type :open :close :single,
-    token name,
-    params,
-    token stream.
-    top token - text, parser returns its stream and tokens tail
-    closing token with other than name now converted to text, later can check with tokens stack and autoclose current token
-    text - add to stream
-    token - build stream, recursivelly add tokens to stream end
-  """
+  # :process method
+  # token type :open :close :single :text (:smile),
+  # token name,
+  # params,
+  # tokens stream from tokenizer.
+  # top token - text, parser returns its stream and tokens tail
+  # closing token with other than name now converted to text, later can check with tokens stack and autoclose current token
+  # text - add to stream
+  # token - build stream, recursivelly add tokens to stream end
+
+  # stream ended, tokens = []
+  # append token to accum
+  # convert accum to ast item
+  # return ast
+  defp process(%{ast: ast, token: token, tokens: [], type: type}) do
+    ast
+    |> Enum.reverse()
+  end
+
   defp process(
          %{
            ast: ast,
-           prev_token: prev,
-           current_token: current,
-           tokens: tokens,
-           state: state
+           token: token,
+           tokens: [head | tail] = tokens,
+           type: type
          } = context
        ) do
     # {type, name, params} = ident_token(token)
-    IO.inspect(context)
+    # rez =
+    #   case ident_token(token) do
+    #     {:open, token_name} ->
+    #       make_level(token)
 
-    rez =
-      case ident_token(current) do
-        {:open, token_name} ->
-          make_level(current)
+    #     {:close, token_name} ->
+    #       # return(closed(level))
+    #       nil
 
-        {:close, token_name} ->
-          # return(closed(level))
-          nil
-
-        {:single, list} ->
-          # append(to(result and continue))
-          nil
-      end
-
-    make_level({})
-
-    # if Enum.empty?(tokens) do
-    #   context
-    # else
-    #   [token | tail] = tokens
-    #   {new_token, new_ast} = case new_state = ident_token(state, prev, current, token) do
-    #     :text ->
-    #       {token, [ast | [{:text, token}]]}
+    #     {:single, list} ->
+    #       # append(to(result and continue))
+    #       nil
     #   end
-    #     new_context = %{ast: new_ast, token: new_token, prev_token: nil, current_token: nil, state: new_state, tokens: tail}
-    #     process(new_context)
-    # end
+
+    # make_level({})
   end
 
-  defp ident_token({:text, list}) do
-    {:single}
-  end
+  # defp ident_token({:text, list}) do
+  #   {:single}
+  # end
 
   @doc """
   ast item: {:type, }
@@ -88,12 +82,12 @@ defmodule Moz.BbCodes do
   stream: tail of tokens list
   """
   # defp make_level({,,,,[]}), do: nil
-  defp make_level({:token, token_name, {kind, opts}, level, stream}), do: nil
-  defp make_level({:text, _, _, level, stream}), do: nil
+  # defp make_level({:token, token_name, {kind, opts}, level, stream}), do: nil
+  # defp make_level({:text, _, _, level, stream}), do: nil
 
   # ident_token state, prev_token, current_token, token
   # states: :text, :start_token
   # defp ident_token(:text, nil, :token_start, )
 
-  defp ident_token(:text, nil, nil, _), do: :text
+  # defp ident_token(:text, nil, nil, _), do: :text
 end
