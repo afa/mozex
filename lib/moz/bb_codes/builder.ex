@@ -1,26 +1,17 @@
-defmodule Moz.BbCodes do
-  alias Moz.BbCodes.Tokenizer
-  alias Moz.BbCode.Builder
-
+defmodule Moz.BbCodes.Builder do
   @moduledoc """
-  parses bb codes, converts text to ast with text and token structured and closed into tuples
-
+  takes token list, builds ast tree
   """
-  def call(text) do
-    text
-    |> init_context
-    |> process
+
+  def call(list) do
+    process(%{ast: [], tokens: list})
   end
 
-  @doc """
-    Initializes the context for parsing BB codes.
-    tokenizing text with BbCodes.Tokenizer
-  """
-  defp init_context(text) do
-    with {:ok, tokens} <- Tokenizer.call(text) do
-      %{ast: [], tokens: tokens, token: nil, type: :text}
-    end
-  end
+  # process casses
+  # empty: ast: [], token nil, tokens [] - return empty ast
+  # terminal: tokens [] - place token to buf, add buf to ast, postprocess ast
+  # start: type text, ast [], token nil
+  #
 
   # :process method
   # token type :open :close :single :text (:smile),
@@ -36,10 +27,6 @@ defmodule Moz.BbCodes do
   # append token to accum
   # convert accum to ast item
   # return ast
-  defp process(%{ast: ast, token: token, tokens: [], type: type}) do
-    ast
-    |> Builder.call()
-  end
 
   defp process(%{ast: ast, token: nil, tokens: [head | tail] = tokens, type: _}) do
     %{type: type} = head
