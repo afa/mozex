@@ -1,6 +1,6 @@
 defmodule Moz.BbCodes do
   alias Moz.BbCodes.Tokenizer
-  alias Moz.BbCode.Builder
+  alias Moz.BbCodes.Builder
 
   @moduledoc """
   parses bb codes, converts text to ast with text and token structured and closed into tuples
