@@ -1,12 +1,17 @@
 defmodule Moz.BbCodes.BuilderTest do
   use ExUnit.Case, async: true
 
+  alias Moz.BbCodes.BbToken
   alias Moz.BbCodes.Builder
   alias Moz.BbCodes.AstItem
 
   describe "builder" do
     test "empty list" do
       assert Builder.call([]) == []
+    end
+
+    test "text list" do
+      assert Builder.call([%BbToken{type: :text, value: "a", opts: %{}}]) == []
     end
   end
 

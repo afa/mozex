@@ -8,7 +8,9 @@ defmodule Moz.BbCodes do
   """
   def call(text) do
     text
+    |> IO.inspect()
     |> init_context
+    |> IO.inspect()
     |> process
   end
 

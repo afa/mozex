@@ -5,13 +5,14 @@ defmodule Moz.BbCodesTest do
   alias Moz.BbCodes.AstItem
 
   describe "bb_codes" do
-    # test "should parse text" do
-    #   [%{type: type, value: value} | tail] = BbCodes.call("text")
-    #   assert type == :text
-    #   assert value == "text"
-    # end
+    test "should parse text" do
+      [%{type: type, value: value} | tail] = BbCodes.call("text")
+      assert type == :text
+      assert value == "text"
+    end
 
     # test "should parse bold bbcode" do
+    #   BbCodes.call("[b]bold[/b]") |> IO.inspect()
     #   assert BbCodes.call("[b]bold[/b]") == []
     # end
 

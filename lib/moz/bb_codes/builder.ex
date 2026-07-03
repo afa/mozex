@@ -4,7 +4,7 @@ defmodule Moz.BbCodes.Builder do
   """
 
   def call(list) do
-    process(%{ast: [], tokens: list})
+    process(%{ast: [], token: nil, tokens: list, type: :text})
   end
 
   # process casses
@@ -28,21 +28,15 @@ defmodule Moz.BbCodes.Builder do
   # convert accum to ast item
   # return ast
 
-  defp process(%{ast: ast, token: nil, tokens: [head | tail] = tokens, type: _}) do
+  defp process(%{ast: ast, token: nil, tokens: [head | tail], type: _}) do
     %{type: type} = head
-    IO.inspect(head)
-    IO.inspect(type)
     process(%{ast: ast, token: head, tokens: tail, type: type})
   end
 
-  defp process(
-         %{
-           ast: ast,
-           token: token,
-           tokens: [head | tail] = tokens,
-           type: :text
-         } = context
-       ) do
+  # defp process(%{ast: ast}) do
+  # end
+
+  defp process(%{ast: ast, token: token, tokens: [head | tail] = tokens, type: :text} = _context) do
     process(%{ast: ast, token: head, tokens: tail})
     # {type, name, params} = ident_token(token)
     # rez =
