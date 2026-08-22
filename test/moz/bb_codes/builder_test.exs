@@ -11,7 +11,10 @@ defmodule Moz.BbCodes.BuilderTest do
     end
 
     test "text list" do
-      assert Builder.call([%BbToken{type: :text, value: "a", opts: %{}}]) == []
+      [%{type: :text, value: val} | tail] =
+        Builder.call([%BbToken{type: :text, value: "a", opts: %{}}])
+
+      assert val == "a"
     end
   end
 

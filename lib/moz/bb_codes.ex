@@ -7,11 +7,20 @@ defmodule Moz.BbCodes do
 
   """
   def call(text) do
-    text
+    {:ok, tokens, _} =
+      text
+      |> to_char_list()
+      |> :bb_tokenize.string()
+
+    tokens
     |> IO.inspect()
-    |> init_context
+    |> :bb_tokens.parse()
     |> IO.inspect()
-    |> process
+
+    # |> IO.inspect()
+    # |> init_context
+    # |> IO.inspect()
+    # |> process
   end
 
   @doc """
@@ -21,6 +30,7 @@ defmodule Moz.BbCodes do
   defp init_context(text) do
     with {:ok, tokens} <- Tokenizer.call(text) do
       tokens
+      |> IO.inspect()
     end
   end
 

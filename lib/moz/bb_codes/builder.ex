@@ -4,14 +4,60 @@ defmodule Moz.BbCodes.Builder do
   """
 
   def call(list) do
-    process(%{ast: [], token: nil, tokens: list, type: :text})
+    process(%{ast: [], token: nil, tokens: list, type: :text, current: []})
   end
 
-  # process casses
-  # empty: ast: [], token nil, tokens [] - return empty ast
-  # terminal: tokens [] - place token to buf, add buf to ast, postprocess ast
-  # start: type text, ast [], token nil
-  #
+  @doc """
+  process casses
+  empty: ast: [], token nil, tokens [] - return empty ast (possible handle with terminal)
+  terminal: tokens [] - place token to buf, add buf to ast, postprocess ast
+  start: type text, ast [], token nil
+  open: recurse with
+  """
+  @doc """
+
+  """
+  defp process(%{ast: ast, token: token, tokens: [], type: _, current: current}) do
+    # handle token, add to buffer
+    buffer = [[token_to_item(token)], current]
+
+    [[buffer], ast]
+    |> List.flatten()
+    |> Enum.reverse()
+  end
+
+  defp process(%{ast: ast, token: nil, tokens: [head | tail], type: _}) do
+    %{type: type} = head
+    IO.inspect(type)
+    process(%{ast: ast, token: head, tokens: tail, type: type})
+  end
+
+  # defp process(${ast: ast, })
+  defp token_to_item(token) do
+  end
+
+  # defp process(%{ast: ast}) do
+  # end
+
+  # defp process(%{ast: ast, token: token, tokens: [head | tail] = tokens, type: :text} = _context) do
+  #   process(%{ast: ast, token: head, tokens: tail})
+  #   # {type, name, params} = ident_token(token)
+  #   # rez =
+  #   #   case ident_token(token) do
+  #   #     {:open, token_name} ->
+  #   #       make_level(token)
+
+  #   #     {:close, token_name} ->
+  #   #       # return(closed(level))
+  #   #       nil
+
+  #   #     {:single, list} ->
+  #   #       # append(to(result and continue))
+  #   #       nil
+  #   #   end
+
+  #   # make_level({})
+  # end
 
   # :process method
   # token type :open :close :single :text (:smile),
@@ -27,34 +73,6 @@ defmodule Moz.BbCodes.Builder do
   # append token to accum
   # convert accum to ast item
   # return ast
-
-  defp process(%{ast: ast, token: nil, tokens: [head | tail], type: _}) do
-    %{type: type} = head
-    process(%{ast: ast, token: head, tokens: tail, type: type})
-  end
-
-  # defp process(%{ast: ast}) do
-  # end
-
-  defp process(%{ast: ast, token: token, tokens: [head | tail] = tokens, type: :text} = _context) do
-    process(%{ast: ast, token: head, tokens: tail})
-    # {type, name, params} = ident_token(token)
-    # rez =
-    #   case ident_token(token) do
-    #     {:open, token_name} ->
-    #       make_level(token)
-
-    #     {:close, token_name} ->
-    #       # return(closed(level))
-    #       nil
-
-    #     {:single, list} ->
-    #       # append(to(result and continue))
-    #       nil
-    #   end
-
-    # make_level({})
-  end
 
   # defp ident_token({:text, list}) do
   #   {:single}
