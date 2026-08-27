@@ -14,11 +14,17 @@ defmodule Moz.BbCodesTest do
       assert "text" == to_string(text)
     end
 
+    test "error on mismatch token" do
+      {:error, {_loc, code, msg}} = BbCodes.call("[b]text")
+      assert code == :bb_tokens
+    end
+
     test "should parse bold" do
-      [%{type: type, value: value} | tail] = BbCodes.call("[b]text")
-      IO.inspect(type, value, tail)
-      assert type == :text
-      assert value == "text"
+      {:ok, [:b, [str]]} = BbCodes.call("[b]text[/b]") |> IO.inspect
+      assert to_string(str) == "text"
+      # IO.inspect(type, value, tail)
+      # assert type == :text
+      # assert value == "text"
     end
 
     # test "should parse bold bbcode" do
