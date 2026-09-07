@@ -2,7 +2,7 @@
 -module(bb_tokens).
 -file("src/bb_tokens.erl", 3).
 -export([parse/1, parse_and_scan/1, format_error/1]).
--file("src/bb_tokens.yrl", 14).
+-file("src/bb_tokens.yrl", 15).
 
 extract_value({_Token, _Loc, Value}) -> Value.
 
@@ -332,7 +332,7 @@ yeccgoto_token(5, Cat, Ss, Stack, T, Ts, Tzr) ->
 -compile({inline,yeccpars2_0_/1}).
 -dialyzer({nowarn_function, yeccpars2_0_/1}).
 -compile({nowarn_unused_function,  yeccpars2_0_/1}).
--file("src/bb_tokens.yrl", 5).
+-file("src/bb_tokens.yrl", 6).
 yeccpars2_0_(__Stack0) ->
  [begin
                     []
@@ -341,7 +341,7 @@ yeccpars2_0_(__Stack0) ->
 -compile({inline,yeccpars2_1_/1}).
 -dialyzer({nowarn_function, yeccpars2_1_/1}).
 -compile({nowarn_unused_function,  yeccpars2_1_/1}).
--file("src/bb_tokens.yrl", 5).
+-file("src/bb_tokens.yrl", 6).
 yeccpars2_1_(__Stack0) ->
  [begin
                     []
@@ -350,7 +350,7 @@ yeccpars2_1_(__Stack0) ->
 -compile({inline,yeccpars2_2_/1}).
 -dialyzer({nowarn_function, yeccpars2_2_/1}).
 -compile({nowarn_unused_function,  yeccpars2_2_/1}).
--file("src/bb_tokens.yrl", 4).
+-file("src/bb_tokens.yrl", 5).
 yeccpars2_2_(__Stack0) ->
  [___1 | __Stack] = __Stack0,
  [begin
@@ -360,7 +360,7 @@ yeccpars2_2_(__Stack0) ->
 -compile({inline,yeccpars2_4_/1}).
 -dialyzer({nowarn_function, yeccpars2_4_/1}).
 -compile({nowarn_unused_function,  yeccpars2_4_/1}).
--file("src/bb_tokens.yrl", 5).
+-file("src/bb_tokens.yrl", 6).
 yeccpars2_4_(__Stack0) ->
  [begin
                     []
@@ -369,7 +369,7 @@ yeccpars2_4_(__Stack0) ->
 -compile({inline,yeccpars2_5_/1}).
 -dialyzer({nowarn_function, yeccpars2_5_/1}).
 -compile({nowarn_unused_function,  yeccpars2_5_/1}).
--file("src/bb_tokens.yrl", 5).
+-file("src/bb_tokens.yrl", 6).
 yeccpars2_5_(__Stack0) ->
  [begin
                     []
@@ -378,7 +378,7 @@ yeccpars2_5_(__Stack0) ->
 -compile({inline,yeccpars2_6_/1}).
 -dialyzer({nowarn_function, yeccpars2_6_/1}).
 -compile({nowarn_unused_function,  yeccpars2_6_/1}).
--file("src/bb_tokens.yrl", 8).
+-file("src/bb_tokens.yrl", 9).
 yeccpars2_6_(__Stack0) ->
  [___2,___1 | __Stack] = __Stack0,
  [begin
@@ -388,17 +388,17 @@ yeccpars2_6_(__Stack0) ->
 -compile({inline,yeccpars2_8_/1}).
 -dialyzer({nowarn_function, yeccpars2_8_/1}).
 -compile({nowarn_unused_function,  yeccpars2_8_/1}).
--file("src/bb_tokens.yrl", 7).
+-file("src/bb_tokens.yrl", 8).
 yeccpars2_8_(__Stack0) ->
  [___3,___2,___1 | __Stack] = __Stack0,
  [begin
-                                       {b, [___2]}
+                                       {b, ___2, []}
   end | __Stack].
 
 -compile({inline,yeccpars2_9_/1}).
 -dialyzer({nowarn_function, yeccpars2_9_/1}).
 -compile({nowarn_unused_function,  yeccpars2_9_/1}).
--file("src/bb_tokens.yrl", 6).
+-file("src/bb_tokens.yrl", 7).
 yeccpars2_9_(__Stack0) ->
  [___2,___1 | __Stack] = __Stack0,
  [begin
@@ -406,4 +406,4 @@ yeccpars2_9_(__Stack0) ->
   end | __Stack].
 
 
--file("src/bb_tokens.yrl", 17).
+-file("src/bb_tokens.yrl", 18).

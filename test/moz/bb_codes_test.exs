@@ -6,25 +6,21 @@ defmodule Moz.BbCodesTest do
 
   describe "bb_codes" do
     test "should parse empty" do
-      assert {:ok, []} == BbCodes.call("")
+      assert [""] == BbCodes.call("")
     end
 
     test "should parse text" do
-      {:ok, text} = BbCodes.call("text")
-      assert "text" == to_string(text)
+      text = BbCodes.call("text")
+      assert ["text"] == text
     end
 
     test "error on mismatch token" do
-      {:error, {_loc, code, msg}} = BbCodes.call("[b]text")
-      assert code == :bb_tokens
+      {:error, loc, msg} = BbCodes.call("[b]text")
+      assert loc == {1, 7}
     end
 
     test "should parse bold" do
-      {:ok, [:b, [str]]} = BbCodes.call("[b]text[/b]") |> IO.inspect
-      assert to_string(str) == "text"
-      # IO.inspect(type, value, tail)
-      # assert type == :text
-      # assert value == "text"
+      assert ["", {:b, ["text"], []}, ""] == BbCodes.call("[b]text[/b]")
     end
 
     # test "should parse bold bbcode" do
