@@ -1,7 +1,4 @@
 defmodule Moz.BbCodes do
-  alias Moz.BbCodes.Tokenizer
-  alias Moz.BbCodes.Builder
-
   @moduledoc """
   parses bb codes, converts text to ast with text and token structured and closed into tuples
 
@@ -13,6 +10,9 @@ defmodule Moz.BbCodes do
     else
       {:error, {{ln, col}, :bb_tokens, msg}} ->
         {:error, {ln, col}, msg}
+
+      error ->
+        {:error, {0, 0}, "some err"}
     end
   end
 

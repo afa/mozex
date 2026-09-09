@@ -2,7 +2,6 @@ defmodule Moz.BbCodesTest do
   use ExUnit.Case, async: true
 
   alias Moz.BbCodes
-  alias Moz.BbCodes.AstItem
 
   describe "bb_codes" do
     test "should parse empty" do
@@ -23,21 +22,12 @@ defmodule Moz.BbCodesTest do
       assert ["", {:b, ["text"], []}, ""] == BbCodes.call("[b]text[/b]")
     end
 
-    # test "should parse bold bbcode" do
-    #   BbCodes.call("[b]bold[/b]") |> IO.inspect()
-    #   assert BbCodes.call("[b]bold[/b]") == []
-    # end
+    test "parse token sequence" do
+      assert ["", {:b, ["b"], []}, "", {:b, ["b"], []}, ""] == BbCodes.call("[b]b[/b][b]b[/b]")
+    end
 
-    # test "should parse italic bbcode" do
-    #   assert BbCodes.call("[i]italic[/i]") == []
-    # end
-
-    # test "should parse underline bbcode" do
-    #   assert BbCodes.call("[u]underline[/u]") == []
-    # end
-
-    # test "should parse strikethrough bbcode" do
-    #   assert BbCodes.call("[s]strikethrough[/s]") == []
-    # end
+    test "recursive token" do
+      assert ["", {:b, ["", {:b, ["b"], []}, ""], []}, ""] == BbCodes.call("[b][b]b[/b][/b]")
+    end
   end
 end

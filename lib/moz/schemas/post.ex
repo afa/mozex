@@ -1,12 +1,13 @@
 defmodule Moz.Post do
   use Ecto.Schema
+  alias Moz.BbCodes
 
   schema "post" do
     field :title, :string
     field :text, :string
     field :user_name, :string
     field :created_at, :utc_datetime
-    
+
     field :allow_smile, :boolean
     field :allow_signature, :boolean
     field :visible, :boolean
@@ -18,7 +19,12 @@ defmodule Moz.Post do
     belongs_to :thread, Moz.Thread
     belongs_to :parent, Moz.Post
     has_many :children, Moz.Post, foreign_key: :parent_id
+  end
 
+  def formated_text(%__MODULE__{text: plain_text}) do
+    with {:ok, list} <- BbCodes.call(plain_text) do
+      BbCodes.Convertor.Html.call(list)
+    end
   end
 
   # def change do
@@ -39,24 +45,24 @@ defmodule Moz.Post do
   #   end
 
   # end
-# +----------------+----------------------+------+-----+---------+----------------+
-# | Field          | Type                 | Null | Key | Default | Extra          |
-# +----------------+----------------------+------+-----+---------+----------------+
-# | postid         | int(10) unsigned     | NO   | PRI | NULL    | auto_increment |
-# | threadid       | int(10) unsigned     | NO   | MUL | 0       |                |
-# | parentid       | int(10) unsigned     | NO   |     | 0       |                |
-# | username       | varchar(100)         | NO   |     |         |                |
-# | userid         | int(10) unsigned     | NO   | MUL | 0       |                |
-# | title          | varchar(250)         | NO   |     |         |                |
-# | dateline       | int(10) unsigned     | NO   | MUL | 0       |                |
-# | pagetext       | mediumtext           | YES  |     | NULL    |                |
-# | allowsmilie    | smallint(6)          | NO   |     | 0       |                |
-# | showsignature  | smallint(6)          | NO   |     | 0       |                |
-# | ipaddress      | varchar(15)          | NO   |     |         |                |
-# | iconid         | smallint(5) unsigned | NO   |     | 0       |                |
-# | visible        | smallint(6)          | NO   |     | 0       |                |
-# | attach         | smallint(5) unsigned | NO   |     | 0       |                |
-# | infraction     | smallint(5) unsigned | NO   |     | 0       |                |
-# | reportthreadid | int(10) unsigned     | NO   |     | 0       |                |
-# +----------------+----------------------+------+-----+---------+----------------+
+  # +----------------+----------------------+------+-----+---------+----------------+
+  # | Field          | Type                 | Null | Key | Default | Extra          |
+  # +----------------+----------------------+------+-----+---------+----------------+
+  # | postid         | int(10) unsigned     | NO   | PRI | NULL    | auto_increment |
+  # | threadid       | int(10) unsigned     | NO   | MUL | 0       |                |
+  # | parentid       | int(10) unsigned     | NO   |     | 0       |                |
+  # | username       | varchar(100)         | NO   |     |         |                |
+  # | userid         | int(10) unsigned     | NO   | MUL | 0       |                |
+  # | title          | varchar(250)         | NO   |     |         |                |
+  # | dateline       | int(10) unsigned     | NO   | MUL | 0       |                |
+  # | pagetext       | mediumtext           | YES  |     | NULL    |                |
+  # | allowsmilie    | smallint(6)          | NO   |     | 0       |                |
+  # | showsignature  | smallint(6)          | NO   |     | 0       |                |
+  # | ipaddress      | varchar(15)          | NO   |     |         |                |
+  # | iconid         | smallint(5) unsigned | NO   |     | 0       |                |
+  # | visible        | smallint(6)          | NO   |     | 0       |                |
+  # | attach         | smallint(5) unsigned | NO   |     | 0       |                |
+  # | infraction     | smallint(5) unsigned | NO   |     | 0       |                |
+  # | reportthreadid | int(10) unsigned     | NO   |     | 0       |                |
+  # +----------------+----------------------+------+-----+---------+----------------+
 end
