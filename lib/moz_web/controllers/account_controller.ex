@@ -5,10 +5,9 @@ defmodule MozWeb.AccountController do
   alias Moz.Account
   alias Moz.Accounts
 
-  def login(conn, %{"login" => login, "password" => password} = params) do
+  def login(conn, %{"login" => login, "password" => password}) do
     with {:ok, user} <- Accounts.locate_user(login, password),
-         {:ok, token} <- Accounts.setup_token(user)
-    do
+         {:ok, token} <- Accounts.setup_token(user) do
       conn
       |> assign(:current_user, user)
       |> put_resp_cookie("moz_token", token)

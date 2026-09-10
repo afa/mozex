@@ -5,12 +5,12 @@ defmodule Moz.BbCodesTest do
 
   describe "bb_codes" do
     test "should parse empty" do
-      assert [""] == BbCodes.call("")
+      assert {:ok, [""]} == BbCodes.call("")
     end
 
     test "should parse text" do
       text = BbCodes.call("text")
-      assert ["text"] == text
+      assert {:ok, ["text"]} == text
     end
 
     test "error on mismatch token" do
@@ -19,15 +19,17 @@ defmodule Moz.BbCodesTest do
     end
 
     test "should parse bold" do
-      assert ["", {:b, ["text"], []}, ""] == BbCodes.call("[b]text[/b]")
+      assert {:ok, ["", {:b, ["text"], []}, ""]} == BbCodes.call("[b]text[/b]")
     end
 
     test "parse token sequence" do
-      assert ["", {:b, ["b"], []}, "", {:b, ["b"], []}, ""] == BbCodes.call("[b]b[/b][b]b[/b]")
+      assert {:ok, ["", {:b, ["b"], []}, "", {:b, ["b"], []}, ""]} ==
+               BbCodes.call("[b]b[/b][b]b[/b]")
     end
 
     test "recursive token" do
-      assert ["", {:b, ["", {:b, ["b"], []}, ""], []}, ""] == BbCodes.call("[b][b]b[/b][/b]")
+      assert {:ok, ["", {:b, ["", {:b, ["b"], []}, ""], []}, ""]} ==
+               BbCodes.call("[b][b]b[/b][/b]")
     end
   end
 end

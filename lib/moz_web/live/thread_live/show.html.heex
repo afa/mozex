@@ -16,6 +16,6 @@
       <div>{post.title}</div>
       <div>{post.created_at}</div>
     </div>
-    <div>{Moz.Post.formated_text(post.text)}</div>
+    <div>{Moz.Post.formated_text(post) |> raw}</div>
   </div>
 </div>

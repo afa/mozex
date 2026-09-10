@@ -4,15 +4,15 @@ defmodule Moz.BbCodes do
 
   """
   def call(text) do
-    with {:ok, tokens, _} <- :bb_tokenize.string(to_char_list(text)),
+    with {:ok, tokens, _} <- :bb_tokenize.string(to_charlist(text)),
          {:ok, parsed} <- :bb_tokens.parse(tokens) do
-      compact(parsed, [], [])
+      {:ok, compact(parsed, [], [])}
     else
       {:error, {{ln, col}, :bb_tokens, msg}} ->
         {:error, {ln, col}, msg}
 
       error ->
-        {:error, {0, 0}, "some err"}
+        {:error, {0, 0}, "some err: #{inspect(error)}"}
     end
   end
 
