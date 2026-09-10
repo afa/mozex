@@ -31,5 +31,9 @@ defmodule Moz.BbCodesTest do
       assert {:ok, ["", {:b, ["", {:b, ["b"], []}, ""], []}, ""]} ==
                BbCodes.call("[b][b]b[/b][/b]")
     end
+
+    test "invalid token continuation" do
+      assert {:ok, ["[bbb]ss"]} == BbCodes.call("[bbb]ss")
+    end
   end
 end

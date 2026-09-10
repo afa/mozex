@@ -1,7 +1,7 @@
 % list: {token kind [open]}
 Nonterminals texts list token.
 % Nonterminals texts opentoken closetoken list.
-Terminals text
+Terminals text new_line
     b_token slash_b_token.
 % Terminals '[' ']' '/' text.
 Rootsymbol list.
@@ -10,6 +10,7 @@ list -> texts : '$1'.
 texts -> '$empty' : [].
 texts -> token texts : ['$1' | '$2'].
 token -> b_token texts slash_b_token : {b, '$2', []}.
+token -> new_line : {new_line, [], []}.
 texts -> text texts : [extract_value('$1') | '$2'].
 
 Erlang code.

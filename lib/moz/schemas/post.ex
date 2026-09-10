@@ -21,12 +21,12 @@ defmodule Moz.Post do
     has_many :children, Moz.Post, foreign_key: :parent_id
   end
 
-  def formated_text(%Moz.Post{text: plain_text}) do
+  def formated_text(%Moz.Post{id: id, text: plain_text}) do
     with {:ok, list} <- BbCodes.call(plain_text) do
       BbCodes.Convertor.Html.call(list)
     else
       {:error, {line, col}, msg} ->
-        "Error in line #{line} column #{col} #{msg}"
+        "Error in line #{line} column #{col} #{msg} for post \##{id}"
     end
   end
 
