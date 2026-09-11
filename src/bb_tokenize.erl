@@ -12,7 +12,7 @@
 -export([format_error/1]).
 
 %% User code. This is placed here to allow extra attributes.
--file("src/bb_tokenize.xrl", 16).
+-file("src/bb_tokenize.xrl", 15).
 
 -file("/Users/afa/.asdf/installs/erlang/27.0/lib/parsetools-2.6/include/leexinc.hrl", 14).
 
@@ -372,62 +372,82 @@ tab_size() -> 8.
 %% input.
 
 -file("src/bb_tokenize.erl", 339).
-yystate() -> 10.
+yystate() -> 14.
 
+yystate(15, Ics, Line, Col, Tlen, _, _) ->
+    {8,Tlen,Ics,Line,Col};
+yystate(14, [91|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(12, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(14, [13|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(7, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(14, [11|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(14, [12|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(14, [10|Ics], Line, _, Tlen, Action, Alen) ->
+    yystate(11, Ics, Line+1, 1, Tlen+1, Action, Alen);
+yystate(14, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 0, C =< 9 ->
+    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(14, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 14, C =< 90 ->
+    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(14, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 92 ->
+    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(14, Ics, Line, Col, Tlen, Action, Alen) ->
+    {Action,Alen,Tlen,Ics,Line,Col,14};
+yystate(13, Ics, Line, Col, Tlen, _, _) ->
+    {1,Tlen,Ics,Line,Col};
+yystate(12, [105|Ics], Line, Col, Tlen, _, _) ->
+    yystate(10, Ics, Line, Col, Tlen+1, 8, Tlen);
+yystate(12, [98|Ics], Line, Col, Tlen, _, _) ->
+    yystate(6, Ics, Line, Col, Tlen+1, 8, Tlen);
+yystate(12, [73|Ics], Line, Col, Tlen, _, _) ->
+    yystate(10, Ics, Line, Col, Tlen+1, 8, Tlen);
+yystate(12, [66|Ics], Line, Col, Tlen, _, _) ->
+    yystate(6, Ics, Line, Col, Tlen+1, 8, Tlen);
+yystate(12, [47|Ics], Line, Col, Tlen, _, _) ->
+    yystate(2, Ics, Line, Col, Tlen+1, 8, Tlen);
+yystate(12, Ics, Line, Col, Tlen, _, _) ->
+    {8,Tlen,Ics,Line,Col,12};
+yystate(11, [13|Ics], Line, Col, Tlen, _, _) ->
+    yystate(13, Ics, Line, Col, Tlen+1, 3, Tlen);
 yystate(11, Ics, Line, Col, Tlen, _, _) ->
-    {6,Tlen,Ics,Line,Col};
-yystate(10, [91|Ics], Line, Col, Tlen, Action, Alen) ->
+    {3,Tlen,Ics,Line,Col,11};
+yystate(10, [93|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(8, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(10, [13|Ics], Line, Col, Tlen, Action, Alen) ->
-    yystate(3, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(10, [11|Ics], Line, Col, Tlen, Action, Alen) ->
-    yystate(11, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(10, [12|Ics], Line, Col, Tlen, Action, Alen) ->
-    yystate(11, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(10, [10|Ics], Line, _, Tlen, Action, Alen) ->
-    yystate(7, Ics, Line+1, 1, Tlen+1, Action, Alen);
-yystate(10, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 0, C =< 9 ->
-    yystate(11, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(10, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 14, C =< 90 ->
-    yystate(11, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(10, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 92 ->
-    yystate(11, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(10, Ics, Line, Col, Tlen, Action, Alen) ->
     {Action,Alen,Tlen,Ics,Line,Col,10};
 yystate(9, Ics, Line, Col, Tlen, _, _) ->
-    {1,Tlen,Ics,Line,Col};
-yystate(8, [98|Ics], Line, Col, Tlen, _, _) ->
-    yystate(6, Ics, Line, Col, Tlen+1, 6, Tlen);
-yystate(8, [66|Ics], Line, Col, Tlen, _, _) ->
-    yystate(6, Ics, Line, Col, Tlen+1, 6, Tlen);
-yystate(8, [47|Ics], Line, Col, Tlen, _, _) ->
-    yystate(2, Ics, Line, Col, Tlen+1, 6, Tlen);
+    {0,Tlen,Ics,Line,Col};
 yystate(8, Ics, Line, Col, Tlen, _, _) ->
-    {6,Tlen,Ics,Line,Col,8};
-yystate(7, [13|Ics], Line, Col, Tlen, _, _) ->
-    yystate(9, Ics, Line, Col, Tlen+1, 3, Tlen);
+    {6,Tlen,Ics,Line,Col};
+yystate(7, [10|Ics], Line, _, Tlen, _, _) ->
+    yystate(9, Ics, Line+1, 1, Tlen+1, 2, Tlen);
 yystate(7, Ics, Line, Col, Tlen, _, _) ->
-    {3,Tlen,Ics,Line,Col,7};
+    {2,Tlen,Ics,Line,Col,7};
 yystate(6, [93|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(4, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(6, Ics, Line, Col, Tlen, Action, Alen) ->
     {Action,Alen,Tlen,Ics,Line,Col,6};
 yystate(5, Ics, Line, Col, Tlen, _, _) ->
-    {0,Tlen,Ics,Line,Col};
+    {5,Tlen,Ics,Line,Col};
 yystate(4, Ics, Line, Col, Tlen, _, _) ->
     {4,Tlen,Ics,Line,Col};
-yystate(3, [10|Ics], Line, _, Tlen, _, _) ->
-    yystate(5, Ics, Line+1, 1, Tlen+1, 2, Tlen);
-yystate(3, Ics, Line, Col, Tlen, _, _) ->
-    {2,Tlen,Ics,Line,Col,3};
+yystate(3, [93|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(5, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(3, Ics, Line, Col, Tlen, Action, Alen) ->
+    {Action,Alen,Tlen,Ics,Line,Col,3};
+yystate(2, [105|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(0, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(2, [98|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(3, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(2, [73|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(0, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(2, [66|Ics], Line, Col, Tlen, Action, Alen) ->
-    yystate(0, Ics, Line, Col, Tlen+1, Action, Alen);
+    yystate(3, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(2, Ics, Line, Col, Tlen, Action, Alen) ->
     {Action,Alen,Tlen,Ics,Line,Col,2};
 yystate(1, Ics, Line, Col, Tlen, _, _) ->
-    {5,Tlen,Ics,Line,Col};
+    {7,Tlen,Ics,Line,Col};
 yystate(0, [93|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(1, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(0, Ics, Line, Col, Tlen, Action, Alen) ->
@@ -456,47 +476,65 @@ yyaction(5, TokenLen, YYtcs, TokenLine, TokenCol) ->
 yyaction(6, TokenLen, YYtcs, TokenLine, TokenCol) ->
     TokenChars = yypre(YYtcs, TokenLen),
     yyaction_6(TokenChars, TokenLine, TokenCol);
+yyaction(7, TokenLen, YYtcs, TokenLine, TokenCol) ->
+    TokenChars = yypre(YYtcs, TokenLen),
+    yyaction_7(TokenChars, TokenLine, TokenCol);
+yyaction(8, TokenLen, YYtcs, TokenLine, TokenCol) ->
+    TokenChars = yypre(YYtcs, TokenLen),
+    yyaction_8(TokenChars, TokenLine, TokenCol);
 yyaction(_, _, _, _, _) -> error.
 
 -compile({inline,yyaction_0/2}).
--file("src/bb_tokenize.xrl", 6).
+-file("src/bb_tokenize.xrl", 3).
 yyaction_0(TokenLine, TokenCol) ->
     TokenLoc={TokenLine,TokenCol},
      { token, { new_line, TokenLoc } } .
 
 -compile({inline,yyaction_1/2}).
--file("src/bb_tokenize.xrl", 7).
+-file("src/bb_tokenize.xrl", 4).
 yyaction_1(TokenLine, TokenCol) ->
     TokenLoc={TokenLine,TokenCol},
      { token, { new_line, TokenLoc } } .
 
 -compile({inline,yyaction_2/2}).
--file("src/bb_tokenize.xrl", 8).
+-file("src/bb_tokenize.xrl", 5).
 yyaction_2(TokenLine, TokenCol) ->
     TokenLoc={TokenLine,TokenCol},
      { token, { new_line, TokenLoc } } .
 
 -compile({inline,yyaction_3/2}).
--file("src/bb_tokenize.xrl", 9).
+-file("src/bb_tokenize.xrl", 6).
 yyaction_3(TokenLine, TokenCol) ->
     TokenLoc={TokenLine,TokenCol},
      { token, { new_line, TokenLoc } } .
 
 -compile({inline,yyaction_4/3}).
--file("src/bb_tokenize.xrl", 10).
+-file("src/bb_tokenize.xrl", 7).
 yyaction_4(TokenChars, TokenLine, TokenCol) ->
     TokenLoc={TokenLine,TokenCol},
      { token, { b_token, TokenLoc, TokenChars } } .
 
 -compile({inline,yyaction_5/3}).
--file("src/bb_tokenize.xrl", 11).
+-file("src/bb_tokenize.xrl", 8).
 yyaction_5(TokenChars, TokenLine, TokenCol) ->
     TokenLoc={TokenLine,TokenCol},
      { token, { slash_b_token, TokenLoc, TokenChars } } .
 
 -compile({inline,yyaction_6/3}).
--file("src/bb_tokenize.xrl", 12).
+-file("src/bb_tokenize.xrl", 9).
 yyaction_6(TokenChars, TokenLine, TokenCol) ->
+    TokenLoc={TokenLine,TokenCol},
+     { token, { i_token, TokenLoc, TokenChars } } .
+
+-compile({inline,yyaction_7/3}).
+-file("src/bb_tokenize.xrl", 10).
+yyaction_7(TokenChars, TokenLine, TokenCol) ->
+    TokenLoc={TokenLine,TokenCol},
+     { token, { slash_i_token, TokenLoc, TokenChars } } .
+
+-compile({inline,yyaction_8/3}).
+-file("src/bb_tokenize.xrl", 11).
+yyaction_8(TokenChars, TokenLine, TokenCol) ->
     TokenLoc={TokenLine,TokenCol},
      { token, { text, TokenLoc, TokenChars } } .
 -file("/Users/afa/.asdf/installs/erlang/27.0/lib/parsetools-2.6/include/leexinc.hrl", 344).
