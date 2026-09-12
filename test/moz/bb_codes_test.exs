@@ -37,6 +37,15 @@ defmodule Moz.BbCodesTest do
     end
 
     test "i" do
+      assert {:ok, ["", {:i, ["i"], []}, ""]} == BbCodes.call("[i]i[/i]")
+    end
+
+    test "u" do
+      assert {:ok, ["", {:u, ["u"], []}, ""]} == BbCodes.call("[u]u[/u]")
+    end
+
+    test "s" do
+      assert {:ok, ["", {:s, ["s"], []}, ""]} == BbCodes.call("[s]s[/s]")
     end
   end
 end

@@ -31,6 +31,14 @@ defmodule Moz.BbCodes.Convertor.Html do
     Enum.join(["<i>", inside, "</i>"])
   end
 
+  defp produce(:u, inside, _params) do
+    Enum.join(["<u>", inside, "</u>"])
+  end
+
+  defp produce(:s, inside, _params) do
+    Enum.join(["<s>", inside, "</s>"])
+  end
+
   defp produce(:new_line, _inside, _params) do
     "<br/>"
   end

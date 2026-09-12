@@ -12,7 +12,7 @@
 -export([format_error/1]).
 
 %% User code. This is placed here to allow extra attributes.
--file("src/bb_tokenize.xrl", 15).
+-file("src/bb_tokenize.xrl", 19).
 
 -file("/Users/afa/.asdf/installs/erlang/27.0/lib/parsetools-2.6/include/leexinc.hrl", 14).
 
@@ -372,82 +372,122 @@ tab_size() -> 8.
 %% input.
 
 -file("src/bb_tokenize.erl", 339).
-yystate() -> 14.
+yystate() -> 22.
 
-yystate(15, Ics, Line, Col, Tlen, _, _) ->
+yystate(23, Ics, Line, Col, Tlen, _, _) ->
+    {12,Tlen,Ics,Line,Col};
+yystate(22, [91|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(20, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(22, [13|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(22, [11|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(23, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(22, [12|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(23, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(22, [10|Ics], Line, _, Tlen, Action, Alen) ->
+    yystate(19, Ics, Line+1, 1, Tlen+1, Action, Alen);
+yystate(22, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 0, C =< 9 ->
+    yystate(23, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(22, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 14, C =< 90 ->
+    yystate(23, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(22, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 92 ->
+    yystate(23, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(22, Ics, Line, Col, Tlen, Action, Alen) ->
+    {Action,Alen,Tlen,Ics,Line,Col,22};
+yystate(21, Ics, Line, Col, Tlen, _, _) ->
+    {1,Tlen,Ics,Line,Col};
+yystate(20, [117|Ics], Line, Col, Tlen, _, _) ->
+    yystate(18, Ics, Line, Col, Tlen+1, 12, Tlen);
+yystate(20, [115|Ics], Line, Col, Tlen, _, _) ->
+    yystate(14, Ics, Line, Col, Tlen+1, 12, Tlen);
+yystate(20, [105|Ics], Line, Col, Tlen, _, _) ->
+    yystate(10, Ics, Line, Col, Tlen+1, 12, Tlen);
+yystate(20, [98|Ics], Line, Col, Tlen, _, _) ->
+    yystate(6, Ics, Line, Col, Tlen+1, 12, Tlen);
+yystate(20, [85|Ics], Line, Col, Tlen, _, _) ->
+    yystate(18, Ics, Line, Col, Tlen+1, 12, Tlen);
+yystate(20, [83|Ics], Line, Col, Tlen, _, _) ->
+    yystate(14, Ics, Line, Col, Tlen+1, 12, Tlen);
+yystate(20, [73|Ics], Line, Col, Tlen, _, _) ->
+    yystate(10, Ics, Line, Col, Tlen+1, 12, Tlen);
+yystate(20, [66|Ics], Line, Col, Tlen, _, _) ->
+    yystate(6, Ics, Line, Col, Tlen+1, 12, Tlen);
+yystate(20, [47|Ics], Line, Col, Tlen, _, _) ->
+    yystate(2, Ics, Line, Col, Tlen+1, 12, Tlen);
+yystate(20, Ics, Line, Col, Tlen, _, _) ->
+    {12,Tlen,Ics,Line,Col,20};
+yystate(19, [13|Ics], Line, Col, Tlen, _, _) ->
+    yystate(21, Ics, Line, Col, Tlen+1, 3, Tlen);
+yystate(19, Ics, Line, Col, Tlen, _, _) ->
+    {3,Tlen,Ics,Line,Col,19};
+yystate(18, [93|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(16, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(18, Ics, Line, Col, Tlen, Action, Alen) ->
+    {Action,Alen,Tlen,Ics,Line,Col,18};
+yystate(17, Ics, Line, Col, Tlen, _, _) ->
+    {0,Tlen,Ics,Line,Col};
+yystate(16, Ics, Line, Col, Tlen, _, _) ->
     {8,Tlen,Ics,Line,Col};
-yystate(14, [91|Ics], Line, Col, Tlen, Action, Alen) ->
+yystate(15, [10|Ics], Line, _, Tlen, _, _) ->
+    yystate(17, Ics, Line+1, 1, Tlen+1, 2, Tlen);
+yystate(15, Ics, Line, Col, Tlen, _, _) ->
+    {2,Tlen,Ics,Line,Col,15};
+yystate(14, [93|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(12, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(14, [13|Ics], Line, Col, Tlen, Action, Alen) ->
-    yystate(7, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(14, [11|Ics], Line, Col, Tlen, Action, Alen) ->
-    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(14, [12|Ics], Line, Col, Tlen, Action, Alen) ->
-    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(14, [10|Ics], Line, _, Tlen, Action, Alen) ->
-    yystate(11, Ics, Line+1, 1, Tlen+1, Action, Alen);
-yystate(14, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 0, C =< 9 ->
-    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(14, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 14, C =< 90 ->
-    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
-yystate(14, [C|Ics], Line, Col, Tlen, Action, Alen) when C >= 92 ->
-    yystate(15, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(14, Ics, Line, Col, Tlen, Action, Alen) ->
     {Action,Alen,Tlen,Ics,Line,Col,14};
 yystate(13, Ics, Line, Col, Tlen, _, _) ->
-    {1,Tlen,Ics,Line,Col};
-yystate(12, [105|Ics], Line, Col, Tlen, _, _) ->
-    yystate(10, Ics, Line, Col, Tlen+1, 8, Tlen);
-yystate(12, [98|Ics], Line, Col, Tlen, _, _) ->
-    yystate(6, Ics, Line, Col, Tlen+1, 8, Tlen);
-yystate(12, [73|Ics], Line, Col, Tlen, _, _) ->
-    yystate(10, Ics, Line, Col, Tlen+1, 8, Tlen);
-yystate(12, [66|Ics], Line, Col, Tlen, _, _) ->
-    yystate(6, Ics, Line, Col, Tlen+1, 8, Tlen);
-yystate(12, [47|Ics], Line, Col, Tlen, _, _) ->
-    yystate(2, Ics, Line, Col, Tlen+1, 8, Tlen);
+    {5,Tlen,Ics,Line,Col};
 yystate(12, Ics, Line, Col, Tlen, _, _) ->
-    {8,Tlen,Ics,Line,Col,12};
-yystate(11, [13|Ics], Line, Col, Tlen, _, _) ->
-    yystate(13, Ics, Line, Col, Tlen+1, 3, Tlen);
-yystate(11, Ics, Line, Col, Tlen, _, _) ->
-    {3,Tlen,Ics,Line,Col,11};
+    {10,Tlen,Ics,Line,Col};
+yystate(11, [93|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(13, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(11, Ics, Line, Col, Tlen, Action, Alen) ->
+    {Action,Alen,Tlen,Ics,Line,Col,11};
 yystate(10, [93|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(8, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(10, Ics, Line, Col, Tlen, Action, Alen) ->
     {Action,Alen,Tlen,Ics,Line,Col,10};
 yystate(9, Ics, Line, Col, Tlen, _, _) ->
-    {0,Tlen,Ics,Line,Col};
+    {7,Tlen,Ics,Line,Col};
 yystate(8, Ics, Line, Col, Tlen, _, _) ->
     {6,Tlen,Ics,Line,Col};
-yystate(7, [10|Ics], Line, _, Tlen, _, _) ->
-    yystate(9, Ics, Line+1, 1, Tlen+1, 2, Tlen);
-yystate(7, Ics, Line, Col, Tlen, _, _) ->
-    {2,Tlen,Ics,Line,Col,7};
+yystate(7, [93|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(9, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(7, Ics, Line, Col, Tlen, Action, Alen) ->
+    {Action,Alen,Tlen,Ics,Line,Col,7};
 yystate(6, [93|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(4, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(6, Ics, Line, Col, Tlen, Action, Alen) ->
     {Action,Alen,Tlen,Ics,Line,Col,6};
 yystate(5, Ics, Line, Col, Tlen, _, _) ->
-    {5,Tlen,Ics,Line,Col};
+    {11,Tlen,Ics,Line,Col};
 yystate(4, Ics, Line, Col, Tlen, _, _) ->
     {4,Tlen,Ics,Line,Col};
 yystate(3, [93|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(5, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(3, Ics, Line, Col, Tlen, Action, Alen) ->
     {Action,Alen,Tlen,Ics,Line,Col,3};
-yystate(2, [105|Ics], Line, Col, Tlen, Action, Alen) ->
+yystate(2, [117|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(0, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(2, [115|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(3, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(2, [105|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(7, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(2, [98|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(11, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(2, [85|Ics], Line, Col, Tlen, Action, Alen) ->
+    yystate(0, Ics, Line, Col, Tlen+1, Action, Alen);
+yystate(2, [83|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(3, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(2, [73|Ics], Line, Col, Tlen, Action, Alen) ->
-    yystate(0, Ics, Line, Col, Tlen+1, Action, Alen);
+    yystate(7, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(2, [66|Ics], Line, Col, Tlen, Action, Alen) ->
-    yystate(3, Ics, Line, Col, Tlen+1, Action, Alen);
+    yystate(11, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(2, Ics, Line, Col, Tlen, Action, Alen) ->
     {Action,Alen,Tlen,Ics,Line,Col,2};
 yystate(1, Ics, Line, Col, Tlen, _, _) ->
-    {7,Tlen,Ics,Line,Col};
+    {9,Tlen,Ics,Line,Col};
 yystate(0, [93|Ics], Line, Col, Tlen, Action, Alen) ->
     yystate(1, Ics, Line, Col, Tlen+1, Action, Alen);
 yystate(0, Ics, Line, Col, Tlen, Action, Alen) ->
@@ -482,6 +522,18 @@ yyaction(7, TokenLen, YYtcs, TokenLine, TokenCol) ->
 yyaction(8, TokenLen, YYtcs, TokenLine, TokenCol) ->
     TokenChars = yypre(YYtcs, TokenLen),
     yyaction_8(TokenChars, TokenLine, TokenCol);
+yyaction(9, TokenLen, YYtcs, TokenLine, TokenCol) ->
+    TokenChars = yypre(YYtcs, TokenLen),
+    yyaction_9(TokenChars, TokenLine, TokenCol);
+yyaction(10, TokenLen, YYtcs, TokenLine, TokenCol) ->
+    TokenChars = yypre(YYtcs, TokenLen),
+    yyaction_10(TokenChars, TokenLine, TokenCol);
+yyaction(11, TokenLen, YYtcs, TokenLine, TokenCol) ->
+    TokenChars = yypre(YYtcs, TokenLen),
+    yyaction_11(TokenChars, TokenLine, TokenCol);
+yyaction(12, TokenLen, YYtcs, TokenLine, TokenCol) ->
+    TokenChars = yypre(YYtcs, TokenLen),
+    yyaction_12(TokenChars, TokenLine, TokenCol);
 yyaction(_, _, _, _, _) -> error.
 
 -compile({inline,yyaction_0/2}).
@@ -535,6 +587,30 @@ yyaction_7(TokenChars, TokenLine, TokenCol) ->
 -compile({inline,yyaction_8/3}).
 -file("src/bb_tokenize.xrl", 11).
 yyaction_8(TokenChars, TokenLine, TokenCol) ->
+    TokenLoc={TokenLine,TokenCol},
+     { token, { u_token, TokenLoc, TokenChars } } .
+
+-compile({inline,yyaction_9/3}).
+-file("src/bb_tokenize.xrl", 12).
+yyaction_9(TokenChars, TokenLine, TokenCol) ->
+    TokenLoc={TokenLine,TokenCol},
+     { token, { slash_u_token, TokenLoc, TokenChars } } .
+
+-compile({inline,yyaction_10/3}).
+-file("src/bb_tokenize.xrl", 13).
+yyaction_10(TokenChars, TokenLine, TokenCol) ->
+    TokenLoc={TokenLine,TokenCol},
+     { token, { s_token, TokenLoc, TokenChars } } .
+
+-compile({inline,yyaction_11/3}).
+-file("src/bb_tokenize.xrl", 14).
+yyaction_11(TokenChars, TokenLine, TokenCol) ->
+    TokenLoc={TokenLine,TokenCol},
+     { token, { slash_s_token, TokenLoc, TokenChars } } .
+
+-compile({inline,yyaction_12/3}).
+-file("src/bb_tokenize.xrl", 15).
+yyaction_12(TokenChars, TokenLine, TokenCol) ->
     TokenLoc={TokenLine,TokenCol},
      { token, { text, TokenLoc, TokenChars } } .
 -file("/Users/afa/.asdf/installs/erlang/27.0/lib/parsetools-2.6/include/leexinc.hrl", 344).
