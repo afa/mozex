@@ -9,7 +9,8 @@ defmodule Moz.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      compilers: [:yecc, :leex] ++ Mix.compilers()
     ]
   end
 
@@ -61,11 +62,14 @@ defmodule Moz.MixProject do
       {:unicode_string, "~> 1.0"},
       {:math, "~> 0.7.0"},
       {:result, "~> 1.7"},
-      { :uuid, "~> 1.1" },
+      {:uuid, "~> 1.1"},
       {:drops, "~> 0.2.0"},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:secure_random, "~> 0.5.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      # swagger
+      {:phoenix_swagger, "~> 0.8"},
+      {:ex_json_schema, "~> 0.5"}
     ]
   end
 

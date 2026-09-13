@@ -17,7 +17,9 @@
 
 <div class="space-y-2 my-6">
   <div :for={thread <- @forum.threads}>
-    <.link navigate={~p"/thread/#{thread}"}><%= thread.title %></.link>
+    <% IO.inspect(@current_user.id) %>
+    <.link :if={@current_user.id} navigate={~p"/thread/#{thread}"}><%= thread.title %></.link>
+    <span :if={@current_user.id == nil}><%= thread.title %></span>
   </div>
 </div>
 

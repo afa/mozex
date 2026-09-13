@@ -1,18 +1,15 @@
 # Moz
 
-To start your Phoenix server:
+## Что это
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+Был давно форумный сервер, старый и LAMPовый, дорос до миллиона постов и стал тормозить -- отдавал страницу по две минуты, что вполне понятно для пхп стиля работы с мускулом. Любая борьба с медленными запросами упиралась в шторм запросов на загруженном роботами сервере и не давала результатов. В итоге, после уже совсем умирания форума было принято решение убить старый стек и написать менее котоламповый форумный движок Базово - Postgres + Phoenix. Для миграции данных сделан [сервис миграции](https://github.com/afa/moz_dup/) на ruby (sequel/pg/mysql2), понимающий как конвертировать данные без намёков на целостность в менее-более нормальную схему.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Цели и задачи
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+MVP - возможность показать сохраненную информацию залогиненным пользователям. Сделан
 
-## Learn more
+Этап 1 - Показ зарегистрированным пользователям накопленного контента, с интерпретацией бб кодов.
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Этап 2 - Показ в мир публично доступного контента, для зарегистрированных пользователей - применение прав доступа.
+
+Этап 3 - возвращение возможности общения на форуме

@@ -51,10 +51,13 @@ RUN mix release
 
 RUN mkdir /root/.ssh && chmod 700 /root/.ssh
 COPY .artifacts/deploy_key.rsa.pub .artifacts/deploy_key.rsa /root/.ssh/
+COPY .artifacts/env /app/
+RUN chmod 700 /app/env
 RUN ssh-keyscan project.megarulez.ru>/root/.ssh/known_hosts
 
 RUN ssh -i /root/.ssh/deploy_key.rsa moz@project.megarulez.ru rm -rf moz
 RUN ssh -i /root/.ssh/deploy_key.rsa moz@project.megarulez.ru rm -rf static
 RUN scp -i /root/.ssh/deploy_key.rsa -r /app/_build/prod/rel/moz moz@project.megarulez.ru:
 RUN scp -i /root/.ssh/deploy_key.rsa -r /app/priv/static moz@project.megarulez.ru:
+RUN scp -i /root/.ssh/deploy_key.rsa -r /app/env moz@project.megarulez.ru:moz/bin/
 CMD /bin/sh

@@ -2,4 +2,8 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.highlight {
+/*color: #417394;*/
+background: #FFEB90 none repeat-x;
+}
 /* This file is for your main application CSS */

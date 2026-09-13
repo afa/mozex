@@ -11,12 +11,14 @@ defmodule MozWeb.ThreadLive.Show do
 
   @impl true
   def handle_params(%{"id" => id}, _, socket) do
+    thread = Mozaic.get_thread!(id)
     {:noreply,
      socket
-     |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:thread, Mozaic.get_thread!(id))}
+     |> assign(:page_title, page_title(socket.assigns.live_action, thread))
+     |> assign(:thread, thread)}
   end
 
-  defp page_title(:show), do: "Show Thread"
-  defp page_title(:edit), do: "Edit Thread"
+  defp page_title(:show, thread) do
+    thread.title <> " | Mosiaic forum"
+  end
 end
