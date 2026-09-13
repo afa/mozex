@@ -1,6 +1,7 @@
 defmodule Moz.Post do
   use Ecto.Schema
   alias Moz.BbCodes
+  alias Moz.BbCodes.Convertor.Html
 
   schema "post" do
     field :title, :string
@@ -22,11 +23,20 @@ defmodule Moz.Post do
   end
 
   def formated_text(%Moz.Post{id: id, text: plain_text}) do
-    with {:ok, list} <- BbCodes.call(plain_text) do
-      BbCodes.Convertor.Html.call(list)
-    else
+    case String.replace(plain_text, ["<", ">"], &escape/1) |> BbCodes.call() do
+      {:ok, list} ->
+        Html.call(list)
+
       {:error, {line, col}, msg} ->
         "Error in line #{line} column #{col} #{msg} for post \##{id}"
+    end
+  end
+
+  defp escape(matched) do
+    case matched do
+      "<" -> "&lt;"
+      ">" -> "&gt;"
+      _ -> matched
     end
   end
 

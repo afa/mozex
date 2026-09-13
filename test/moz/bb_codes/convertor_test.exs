@@ -33,5 +33,25 @@ defmodule Moz.BbCodes.ConvertorTest do
     test "s" do
       assert "<s>s</s>" == Html.call(["", {:s, ["s"], []}, ""])
     end
+
+    test "indent" do
+      assert "<blockquote><div>i</div></blockquote>" == Html.call(["", {:indent, ["i"], []}, ""])
+    end
+
+    test "highlite" do
+      assert "<span class=\"highlite\">h</span>" == Html.call(["", {:highlite, ["h"], []}, ""])
+    end
+
+    test "left" do
+      assert "<div align=left>l</div>" == Html.call(["", {:left, ["l"], []}, ""])
+    end
+
+    test "center" do
+      assert "<div align=center>c</div>" == Html.call(["", {:center, ["c"], []}, ""])
+    end
+
+    test "right" do
+      assert "<div align=right>r</div>" == Html.call(["", {:right, ["r"], []}, ""])
+    end
   end
 end

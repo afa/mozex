@@ -39,6 +39,26 @@ defmodule Moz.BbCodes.Convertor.Html do
     Enum.join(["<s>", inside, "</s>"])
   end
 
+  defp produce(:indent, inside, _params) do
+    Enum.join(["<blockquote><div>", inside, "</div></blockquote>"])
+  end
+
+  defp produce(:highlite, inside, _params) do
+    Enum.join(["<span class=\"highlite\">", inside, "</span>"])
+  end
+
+  defp produce(:left, inside, _params) do
+    Enum.join(["<div align=left>", inside, "</div>"])
+  end
+
+  defp produce(:center, inside, _params) do
+    Enum.join(["<div align=center>", inside, "</div>"])
+  end
+
+  defp produce(:right, inside, _params) do
+    Enum.join(["<div align=right>", inside, "</div>"])
+  end
+
   defp produce(:new_line, _inside, _params) do
     "<br/>"
   end

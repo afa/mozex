@@ -14,7 +14,7 @@ defmodule Moz.BbCodesTest do
     end
 
     test "error on mismatch token" do
-      {:error, loc, msg} = BbCodes.call("[b]text")
+      {:error, loc, _msg} = BbCodes.call("[b]text")
       assert loc == {1, 7}
     end
 
@@ -46,6 +46,26 @@ defmodule Moz.BbCodesTest do
 
     test "s" do
       assert {:ok, ["", {:s, ["s"], []}, ""]} == BbCodes.call("[s]s[/s]")
+    end
+
+    test "highlite" do
+      assert {:ok, ["", {:highlite, ["s"], []}, ""]} == BbCodes.call("[highlite]s[/highlite]")
+    end
+
+    test "indent" do
+      assert {:ok, ["", {:indent, ["s"], []}, ""]} == BbCodes.call("[indent]s[/indent]")
+    end
+
+    test "left" do
+      assert {:ok, ["", {:left, ["s"], []}, ""]} == BbCodes.call("[left]s[/left]")
+    end
+
+    test "center" do
+      assert {:ok, ["", {:center, ["s"], []}, ""]} == BbCodes.call("[center]s[/center]")
+    end
+
+    test "right" do
+      assert {:ok, ["", {:right, ["s"], []}, ""]} == BbCodes.call("[right]s[/right]")
     end
   end
 end
