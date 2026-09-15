@@ -1,0 +1,72 @@
+.vBulletin_editor {
+	BORDER-TOP: 2px groove; BORDER-RIGHT: 2px groove; BORDER-BOTTOM: 2px groove; BORDER-LEFT: 2px groove
+}
+#controlbar {
+	PADDING-BOTTOM: 2px; PADDING-TOP: 2px; PADDING-LEFT: 2px; PADDING-RIGHT: 2px
+}
+.controlbar {
+	PADDING-BOTTOM: 2px; PADDING-TOP: 2px; PADDING-LEFT: 2px; PADDING-RIGHT: 2px
+}
+.imagebutton {
+	LEFT: 0px; TOP: 0px
+}
+.ocolor {
+	FONT-SIZE: 1px; PADDING-BOTTOM: 2px; PADDING-TOP: 2px; PADDING-LEFT: 2px; PADDING-RIGHT: 2px
+}
+.ocolor DIV {
+	BORDER-TOP: #aca899 1px solid; HEIGHT: 10px; BORDER-RIGHT: #aca899 1px solid; WIDTH: 10px; BORDER-BOTTOM: #aca899 1px solid; BORDER-LEFT: #aca899 1px solid
+}
+.ofont {
+	CURSOR: default; FONT: 11px tahoma
+}
+.osize {
+	CURSOR: default; FONT: 11px tahoma
+}
+.osmilie {
+	CURSOR: default; FONT: 11px tahoma
+}
+.otextlink {
+	CURSOR: default; FONT: 11px tahoma
+}
+.ofont {
+	FONT-SIZE: 14px; HEIGHT: 20px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 10px; PADDING-RIGHT: 4px
+}
+.osize {
+	WIDTH: 30px; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; PADDING-LEFT: 4px; PADDING-RIGHT: 4px
+}
+.osmilie IMG {
+	VERTICAL-ALIGN: middle; MARGIN: 4px
+}
+.otextlink {
+	HEIGHT: 20px; TEXT-ALIGN: center; MARGIN-TOP: 4px
+}
+.popup_feedback {
+	OVERFLOW: hidden; HEIGHT: 18px; WHITE-SPACE: nowrap; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 11px tahoma; PADDING-LEFT: 3px; PADDING-RIGHT: 3px
+}
+.popupwindow {
+	BORDER-TOP: appworkspace 1px solid; BORDER-RIGHT: appworkspace 1px solid; BORDER-BOTTOM: appworkspace 1px solid; POSITION: absolute; PADDING-BOTTOM: 3px; PADDING-TOP: 3px; PADDING-LEFT: 3px; LEFT: 0px; BORDER-LEFT: appworkspace 1px solid; Z-INDEX: 5; TOP: 0px; PADDING-RIGHT: 3px
+}
+#popup_forecolor {
+	PADDING-BOTTOM: 3px; PADDING-TOP: 3px; PADDING-LEFT: 3px; PADDING-RIGHT: 3px
+}
+#popup_fontname {
+	OVERFLOW: auto; OVERFLOW-X: hidden; OVERFLOW-Y: scroll; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px
+}
+#popup_fontsize {
+	PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px
+}
+#popup_smilie {
+	OVERFLOW: auto; OVERFLOW-X: hidden; OVERFLOW-Y: scroll; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px
+}
+#popup_attach {
+	OVERFLOW: auto; OVERFLOW-X: hidden; OVERFLOW-Y: scroll; PADDING-BOTTOM: 1px; PADDING-TOP: 1px; PADDING-LEFT: 1px; PADDING-RIGHT: 1px
+}
+#fontOut {
+	OVERFLOW: hidden; CURSOR: default; BORDER-TOP: 0px solid; HEIGHT: 16px; BORDER-RIGHT: 0px solid; BORDER-BOTTOM: 0px solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 11px tahoma; PADDING-LEFT: 2px; BORDER-LEFT: 0px solid; PADDING-RIGHT: 2px
+}
+#sizeOut {
+	OVERFLOW: hidden; CURSOR: default; BORDER-TOP: 0px solid; HEIGHT: 16px; BORDER-RIGHT: 0px solid; BORDER-BOTTOM: 0px solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 11px tahoma; PADDING-LEFT: 2px; BORDER-LEFT: 0px solid; PADDING-RIGHT: 2px
+}
+.popup_feedback DIV {
+	OVERFLOW: hidden; CURSOR: default; BORDER-TOP: 0px solid; HEIGHT: 16px; BORDER-RIGHT: 0px solid; BORDER-BOTTOM: 0px solid; PADDING-BOTTOM: 0px; PADDING-TOP: 0px; FONT: 11px tahoma; PADDING-LEFT: 2px; BORDER-LEFT: 0px solid; PADDING-RIGHT: 2px
+}

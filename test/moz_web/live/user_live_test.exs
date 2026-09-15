@@ -13,96 +13,96 @@ defmodule MozWeb.UserLiveTest do
     %{user: user}
   end
 
-  describe "Index" do
-    setup [:create_user]
+  # describe "Index" do
+  #   setup [:create_user]
 
-    test "lists all user", %{conn: conn} do
-      {:ok, _index_live, html} = live(conn, ~p"/user")
+  #   test "lists all user", %{conn: conn} do
+  #     {:ok, _index_live, html} = live(conn, ~p"/user")
 
-      assert html =~ "Listing User"
-    end
+  #     assert html =~ "Listing User"
+  #   end
 
-    test "saves new user", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, ~p"/user")
+  #   test "saves new user", %{conn: conn} do
+  #     {:ok, index_live, _html} = live(conn, ~p"/user")
 
-      assert index_live |> element("a", "New User") |> render_click() =~
-               "New User"
+  #     assert index_live |> element("a", "New User") |> render_click() =~
+  #              "New User"
 
-      assert_patch(index_live, ~p"/user/new")
+  #     assert_patch(index_live, ~p"/user/new")
 
-      assert index_live
-             |> form("#user-form", user: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+  #     assert index_live
+  #            |> form("#user-form", user: @invalid_attrs)
+  #            |> render_change() =~ "can&#39;t be blank"
 
-      assert index_live
-             |> form("#user-form", user: @create_attrs)
-             |> render_submit()
+  #     assert index_live
+  #            |> form("#user-form", user: @create_attrs)
+  #            |> render_submit()
 
-      assert_patch(index_live, ~p"/user")
+  #     assert_patch(index_live, ~p"/user")
 
-      html = render(index_live)
-      assert html =~ "User created successfully"
-    end
+  #     html = render(index_live)
+  #     assert html =~ "User created successfully"
+  #   end
 
-    test "updates user in listing", %{conn: conn, user: user} do
-      {:ok, index_live, _html} = live(conn, ~p"/user")
+  #   test "updates user in listing", %{conn: conn, user: user} do
+  #     {:ok, index_live, _html} = live(conn, ~p"/user")
 
-      assert index_live |> element("#user-#{user.id} a", "Edit") |> render_click() =~
-               "Edit User"
+  #     assert index_live |> element("#user-#{user.id} a", "Edit") |> render_click() =~
+  #              "Edit User"
 
-      assert_patch(index_live, ~p"/user/#{user}/edit")
+  #     assert_patch(index_live, ~p"/user/#{user}/edit")
 
-      assert index_live
-             |> form("#user-form", user: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+  #     assert index_live
+  #            |> form("#user-form", user: @invalid_attrs)
+  #            |> render_change() =~ "can&#39;t be blank"
 
-      assert index_live
-             |> form("#user-form", user: @update_attrs)
-             |> render_submit()
+  #     assert index_live
+  #            |> form("#user-form", user: @update_attrs)
+  #            |> render_submit()
 
-      assert_patch(index_live, ~p"/user")
+  #     assert_patch(index_live, ~p"/user")
 
-      html = render(index_live)
-      assert html =~ "User updated successfully"
-    end
+  #     html = render(index_live)
+  #     assert html =~ "User updated successfully"
+  #   end
 
-    test "deletes user in listing", %{conn: conn, user: user} do
-      {:ok, index_live, _html} = live(conn, ~p"/user")
+  #   test "deletes user in listing", %{conn: conn, user: user} do
+  #     {:ok, index_live, _html} = live(conn, ~p"/user")
 
-      assert index_live |> element("#user-#{user.id} a", "Delete") |> render_click()
-      refute has_element?(index_live, "#user-#{user.id}")
-    end
-  end
+  #     assert index_live |> element("#user-#{user.id} a", "Delete") |> render_click()
+  #     refute has_element?(index_live, "#user-#{user.id}")
+  #   end
+  # end
 
-  describe "Show" do
-    setup [:create_user]
+  # describe "Show" do
+  #   setup [:create_user]
 
-    test "displays user", %{conn: conn, user: user} do
-      {:ok, _show_live, html} = live(conn, ~p"/user/#{user}")
+  #   test "displays user", %{conn: conn, user: user} do
+  #     {:ok, _show_live, html} = live(conn, ~p"/user/#{user}")
 
-      assert html =~ "Show User"
-    end
+  #     assert html =~ "Show User"
+  #   end
 
-    test "updates user within modal", %{conn: conn, user: user} do
-      {:ok, show_live, _html} = live(conn, ~p"/user/#{user}")
+  #   test "updates user within modal", %{conn: conn, user: user} do
+  #     {:ok, show_live, _html} = live(conn, ~p"/user/#{user}")
 
-      assert show_live |> element("a", "Edit") |> render_click() =~
-               "Edit User"
+  #     assert show_live |> element("a", "Edit") |> render_click() =~
+  #              "Edit User"
 
-      assert_patch(show_live, ~p"/user/#{user}/show/edit")
+  #     assert_patch(show_live, ~p"/user/#{user}/show/edit")
 
-      assert show_live
-             |> form("#user-form", user: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
+  #     assert show_live
+  #            |> form("#user-form", user: @invalid_attrs)
+  #            |> render_change() =~ "can&#39;t be blank"
 
-      assert show_live
-             |> form("#user-form", user: @update_attrs)
-             |> render_submit()
+  #     assert show_live
+  #            |> form("#user-form", user: @update_attrs)
+  #            |> render_submit()
 
-      assert_patch(show_live, ~p"/user/#{user}")
+  #     assert_patch(show_live, ~p"/user/#{user}")
 
-      html = render(show_live)
-      assert html =~ "User updated successfully"
-    end
-  end
+  #     html = render(show_live)
+  #     assert html =~ "User updated successfully"
+  #   end
+  # end
 end

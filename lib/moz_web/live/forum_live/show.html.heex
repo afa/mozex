@@ -1,23 +1,24 @@
 <.header class="my-6">
-  <.breadcrumb forum={Moz.Mozaic.load_forum_parent(@forum)} :if={@forum.parent_id} />
+  <.breadcrumb :if={@forum.parent_id} forum={Moz.Mozaic.load_forum_parent(@forum)} />
   <div class="font-medium text-3xl mx-2">
-    <%= @forum.title %>
+    {@forum.title}
   </div>
   <div class="font-thin text-sm mx-0 my-3">
-    <%= @forum.description_clean %>
+    {@forum.description_clean}
   </div>
   <%!-- <:subtitle>This is a forum record from your database.</:subtitle> --%>
 </.header>
 
 <div class="space-y-2 my-6">
   <div :for={child <- @forum.children} class="text-xl">
-    <.link navigate={~p"/forum/#{child}"}><%= child.title_clean %></.link>
+    <.link navigate={~p"/forum/#{child}"}>{child.title_clean}</.link>
   </div>
 </div>
 
 <div class="space-y-2 my-6">
   <div :for={thread <- @forum.threads}>
-    <.link navigate={~p"/thread/#{thread}"}><%= thread.title %></.link>
+    <.link :if={@current_user.id} navigate={~p"/thread/#{thread}"}>{thread.title}</.link>
+    <span :if={@current_user.id == nil}>{thread.title}</span>
   </div>
 </div>
 

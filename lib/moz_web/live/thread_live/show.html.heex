@@ -9,23 +9,13 @@
   <%!-- </:actions> --%>
 </.header>
 
-<div class="space-y-6" :if={Moz.Policy.can?(@current_user, :thread, :show)}>
+<div :if={Moz.Policy.can?(@current_user, :thread, :show)} class="space-y-6">
   <div :for={post <- @thread.posts}>
     <div class="flex items-center justify-between gap-4 py-2">
-      <div><%= post.user_name %></div>
-      <div><%= post.title %></div>
-      <div><%= post.created_at %></div>
+      <div>{post.user_name}</div>
+      <div>{post.title}</div>
+      <div>{post.created_at}</div>
     </div>
-    <div><%= post.text %></div>
+    <div>{Moz.Post.formated_text(post) |> raw}</div>
   </div>
 </div>
-<%!-- <.modal :if={@live_action == :edit} id="thread-modal" show on_cancel={JS.patch(~p"/thread/#{@thread}")}> --%>
-<%!--   <.live_component --%>
-<%!--     module={MozWeb.ThreadLive.FormComponent} --%>
-<%!--     id={@thread.id} --%>
-<%!--     title={@page_title} --%>
-<%!--     action={@live_action} --%>
-<%!--     thread={@thread} --%>
-<%!--     patch={~p"/thread/#{@thread}"} --%>
-<%!--   /> --%>
-<%!-- </.modal> --%>
