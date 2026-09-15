@@ -32,7 +32,7 @@ Code
 PHP Code
 [php]
 Quote
-[quote]
+* [quote]
 
 Stop BB Code Parsing
 [noparse]

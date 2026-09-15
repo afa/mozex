@@ -83,8 +83,16 @@ defmodule Moz.BbCodes.Convertor.Html do
     ])
   end
 
+  defp produce(:new_line, _inside, _params) do
+    "<br/>"
+  end
+
   defp quote_params([]) do
     []
+  end
+
+  defp quote_params([params]) do
+    String.split(params, ";", parts: 2)
   end
 
   defp quote_name(name) do
@@ -97,10 +105,6 @@ defmodule Moz.BbCodes.Convertor.Html do
 
   defp quote_link(str) do
     "<a href=\"/posts/#{str}\">##{str}</a>"
-  end
-
-  defp quote_params([params]) do
-    String.split(params, ";", parts: 2)
   end
 
   defp produce(:new_line, _inside, _params) do
