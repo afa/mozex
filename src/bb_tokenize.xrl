@@ -24,6 +24,10 @@ Rules.
 \[\/(indent|INDENT)\] : {token, {slash_indent_token, TokenLoc, TokenChars}}.
 \[(highlite|HIGHLITE)\] : {token, {highlite_token, TokenLoc, TokenChars}}.
 \[\/(highlite|HIGHLITE)\] : {token, {slash_highlite_token, TokenLoc, TokenChars}}.
+\[(quote|QUOTE)\] : {token, {quote_token, TokenLoc, TokenChars}}.
+% \[(quote|QUOTE)=.+?;[0-9]+?\] : {token, {pquote_token, TokenLoc, TokenChars}}.
+\[(quote|QUOTE)=[^\]]+\] : {token, {pquote_token, TokenLoc, TokenChars}}.
+\[\/(quote|QUOTE)\] : {token, {slash_quote_token, TokenLoc, TokenChars}}.
 .  : {token, {text, TokenLoc, TokenChars}}.
 
 Erlang code.

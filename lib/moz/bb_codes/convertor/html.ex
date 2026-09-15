@@ -59,6 +59,50 @@ defmodule Moz.BbCodes.Convertor.Html do
     Enum.join(["<div align=right>", inside, "</div>"])
   end
 
+  defp produce(:quote, inside, []) do
+    Enum.join([
+      "<div class=\"quote-box\">",
+      "<div class=\"quote-text\"><blockquote>",
+      inside,
+      "</blockquote></div>",
+      "</div>"
+    ])
+  end
+
+  defp produce(:quote, inside, params) do
+    Enum.join([
+      "<div class=\"quote-box\">",
+      "<div class=\"quote-head\">",
+      quote_name(hd(quote_params(params))),
+      quote_link(tl(quote_params(params))),
+      "</div>",
+      "<div class=\"quote-text\"><blockquote>",
+      inside,
+      "</blockquote></div>",
+      "</div>"
+    ])
+  end
+
+  defp quote_params([]) do
+    []
+  end
+
+  defp quote_name(name) do
+    name
+  end
+
+  defp quote_link([]) do
+    ""
+  end
+
+  defp quote_link(str) do
+    "<a href=\"/posts/#{str}\">##{str}</a>"
+  end
+
+  defp quote_params([params]) do
+    String.split(params, ";", parts: 2)
+  end
+
   defp produce(:new_line, _inside, _params) do
     "<br/>"
   end

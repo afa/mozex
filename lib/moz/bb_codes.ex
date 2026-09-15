@@ -27,6 +27,6 @@ defmodule Moz.BbCodes do
   defp compact([h | t], buf, rez) when is_tuple(h) do
     {tok, list, opts} = h
     item = compact(list, [], [])
-    compact(t, [], [rez, Enum.join(buf), {tok, item, opts}])
+    compact(t, [], [rez, Enum.join(buf), {tok, item, Enum.map(opts, &to_string/1)}])
   end
 end

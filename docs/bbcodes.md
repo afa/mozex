@@ -1,4 +1,10 @@
 * [b], [i], [u] [s]
+Highlight
+* [highlight]
+Left / Right / Center
+* [left], [right], [center]
+Indent
+* [indent]
 
 Color
 [color]
@@ -6,13 +12,6 @@ Size
 [size]
 Font
 [font]
-
-Highlight
-[highlight]
-Left / Right / Center
-[left], [right], [center]
-Indent
-[indent]
 
 Email Linking
 [email]
@@ -23,7 +22,7 @@ Thread Linking
 Post Linking
 [post]
 Bulleted Lists / Advanced Lists
-[list]
+[list] [*]
 Images
 [img]
 Videos

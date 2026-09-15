@@ -67,5 +67,19 @@ defmodule Moz.BbCodesTest do
     test "right" do
       assert {:ok, ["", {:right, ["s"], []}, ""]} == BbCodes.call("[right]s[/right]")
     end
+
+    test "quote" do
+      assert {:ok, ["", {:quote, ["s"], []}, ""]} == BbCodes.call("[quote]s[/quote]")
+    end
+
+    test "parametrized quote, 1 param" do
+      BbCodes.call("a[quote=name]s[/quote]b")
+      assert {:ok, ["a", {:quote, ["s"], ["name"]}, ""]} == BbCodes.call("a[quote=name]s[/quote]")
+    end
+
+    test "parametrized quote, 2 params" do
+      assert {:ok, ["", {:quote, ["s"], ["name;123"]}, ""]} ==
+               BbCodes.call("[quote=name;123]s[/quote]")
+    end
   end
 end

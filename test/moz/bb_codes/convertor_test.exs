@@ -53,5 +53,25 @@ defmodule Moz.BbCodes.ConvertorTest do
     test "right" do
       assert "<div align=right>r</div>" == Html.call(["", {:right, ["r"], []}, ""])
     end
+
+    test "quote" do
+      assert "<div class=\"quote-box\"><div class=\"quote-text\"><blockquote>r</blockquote></div></div>" ==
+               Html.call(["", {:quote, ["r"], []}, ""])
+    end
+  end
+
+  describe "parametrized tokens" do
+    test "quote name" do
+      assert "<div class=\"quote-box\"><div class=\"quote-head\">name</div><div class=\"quote-text\"><blockquote>r</blockquote></div></div>" ==
+               Html.call(["", {:quote, ["r"], ["name"]}, ""])
+    end
+
+    test "quote name  & link" do
+      assert "<div class=\"quote-box\"><div class=\"quote-head\">name<a href=\"/posts/123\">\#123</a></div><div class=\"quote-text\"><blockquote>r</blockquote></div></div>" ==
+               Html.call(["", {:quote, ["r"], ["name;123"]}, ""])
+    end
+  end
+
+  describe "context sensitive tokens" do
   end
 end

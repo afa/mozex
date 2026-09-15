@@ -9,6 +9,7 @@ Terminals text new_line
     left_token slash_left_token
     center_token slash_center_token
     right_token slash_right_token
+    pquote_token quote_token slash_quote_token
     i_token slash_i_token
     b_token slash_b_token.
 % Terminals '[' ']' '/' text.
@@ -26,9 +27,12 @@ token -> highlite_token texts slash_highlite_token : {highlite, '$2', []}.
 token -> left_token texts slash_left_token : {left, '$2', []}.
 token -> center_token texts slash_center_token : {center, '$2', []}.
 token -> right_token texts slash_right_token : {right, '$2', []}.
+token -> quote_token texts slash_quote_token : {quote, '$2', []}.
+token -> pquote_token texts slash_quote_token : {quote, '$2', extract_params('$1')}.
 token -> new_line : {new_line, [], []}.
 texts -> text texts : [extract_value('$1') | '$2'].
 
 Erlang code.
 
 extract_value({_Token, _Loc, Value}) -> Value.
+extract_params({_Token, _Loc, Value}) -> tl(string:split(hd(string:split(Value, "]", trailing)), "=", leading)).
